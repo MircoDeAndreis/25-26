@@ -1,6 +1,6 @@
 # LAB-K1. Docker hands-on
 
-Aim of this lab activity is to become familiar with the basic commands of `docker`, required in the following labs.
+The aim of this lab activity is to become familiar with the basic commands of `docker`, required in the following labs.
 
 NOTE WELL: If you work on the PCs in Dijkstra's room, it is advisable to always use the same PC for the whole course, as your files will be stored on that machine (only).
 
@@ -38,7 +38,6 @@ ON YOUR DEVICE:
 > Follow carefully the steps below and do not skip any detail, since they will become very useful in the following labs.
 3. Read the section **INTRODUCTION** and answer to the following questions:
    - Q1: What is a container and how is it different from a Virtual Machine (VM)? In which terms containers are "better" than VMs?
-      - A container is a private area of our computer where we can run application or service in a isolated enviroment, the difference between a vm and a container is that a containers doesn't add a guest os but it only add the library that are need to run the application for this reason is more efficent than a normal vm. 
    - Q2: What is the meaning of _isolation_ for  VMs and containers?
       - The VMs and container are isolated from all the other process and they have their own part of memory, they don't interact directly with the operating system, this thing is important to make run in every operating system the application.
 

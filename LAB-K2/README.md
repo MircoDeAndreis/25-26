@@ -1,14 +1,34 @@
 # LAB-K2. Basics on Kathara
 
 The aim of this lab is (i) to learn the basic usage of [Kathara](https://www.kathara.org) to emulate simple networks and (ii) to review basic IPv4 routing. 
+
+ON YOUR DEVICE:
+
+0. Download and install Kathara'. Follow instructions on [Intro to Kathara'](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/001-kathara-introduction.pdf)
+
+If installing on Debian 12/13, here are the commands (after installing Docker) that should install Kathara (resolved with Gemini):
+```shell
+text
+echo "deb [trusted=yes] http://ppa.launchpad.net/katharaframework/kathara/ubuntu jammy main" | sudo tee /etc/apt/sources.list.d/kathara.list  
+  
+sudo apt update  
+  
+sudo apt install kathara  
+  
+kathara check  
+```
+
+ON A PC IN DIJKSTRA:
 >[!NOTE]
 >The folders related to the official repository labs of Kathara are available under the local `Kathara-Labs` folder on the VM. 
 All the activities for the class labs are instead available under the  local `Datacenter-Lab-CE` folder, in order to simplify the copy&paste actions. All the folder references present in the following text refer to such a local folder.
 
+## First steps
+
 0. Open a terminal and change the folder `cd Datacenter-lab-CE`. Update the lab activity with `git pull`.
 
 1. Type `kathara check` from the command line and check that the message `Container run successfully` appears. 
-2. Read carefully the slides in the folder `LAB-K2/K2-intro/001-kathara-introduction.pdf`
+2. Read carefully the slides in the [Intro to Kathara'](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/001-kathara-introduction.pdf)
    * Change the default Docker image (sl. 15) by running `kathara settings`
    * Test Kathara (sl. 22)
    * Understand the meaning of ``kathara lstart``, ``kathara lclean``, ``kathara lrestart``, ``kathara linfo``, `kathara list`, `kathara wipe` commands

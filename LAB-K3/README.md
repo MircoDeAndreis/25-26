@@ -1,4 +1,4 @@
-# LAB-K3. Basic topology and routing
+# LAB-K3a. Basic topology and routing
 
 ## 1. Single server topology
 In this lab, we will configure a topology in which router `r1` is connected to host `hb` on one
@@ -118,7 +118,7 @@ Implement the scenario on Kathara by creating the necessary files. Run the scena
   * **Q2.3** Show the routing path `ha->hb` and `hb->ha` through `traceroute`. Check that the implemented configuration is the one intended.
   * **Q2.4** What is the routing algorithm running at r1 and r2? How can you answer this question? Find the appropriate commands.
   * **Q2.5** Why is the routing problem solved in this way at r1 and r2? And how can the network example work, in this case? 
-
+<!---
 ## 3. Routing in a loop topology
 
 Consider the topology below.
@@ -412,4 +412,4 @@ traceroute to 1.2.3.4 (1.2.3.4), 30 hops max, 60 byte packets
  6  10.0.1.2 (10.0.1.2)  12.266 ms  11.558 ms  11.658 ms
  ...
 
- 
+ ---> 
