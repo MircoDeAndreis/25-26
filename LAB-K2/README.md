@@ -17,10 +17,19 @@ All the activities for the class labs are instead available under the  local `Da
    * Read the `lab.conf` and `.startup` files. 
    * Draw the topology. 
      * Q1. What are the IP addresses?
+        * Pc1 -> 10.0.0.1
+        * Pc2 -> 10.0.0.2 
      * Q2. What are the routing tables?
+        * It is tables that contains the different best path of forwarding. 
      * Q3. What is the current state of images and running containers, before starting Kathara? Show the outputs of the proper `docker` commands.
+        * docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
    * Start the lab with `kathara lstart`.
      * Q4. What is the current state of images and running containers after starting Kathara? Show the outputs of the proper `docker` commands.
+        * docker ps
+CONTAINER ID   IMAGE          COMMAND   CREATED          STATUS          PORTS     NAMES
+5f5fa52293db   kathara/base   "bash"    11 seconds ago   Up 10 seconds             kathara_mircodeandreis-ondp9aw5ipht9i0ifiyjg_pc1_u158au35kYqBOzBkpThKg
+0acb79185cbf   kathara/base   "bash"    11 seconds ago   Up 10 seconds             kathara_mircodeandreis-ondp9aw5ipht9i0ifiyjg_pc2_u158au35kYqBOzBkpThKg
      * Q5. Use `ip` command (see the reference table below) to show the IP addresses of the interfaces and the routing tables, for both hosts. 
      * Q6. Using `ping`, check the connectivity between the two hosts and report the output. What is going on?
    Why does latency change over time?
