@@ -2,7 +2,7 @@
 
 ## 1. Single server topology
 In this lab, we will configure a topology in which router `r1` is connected to host `hb` on one
-interface and to host `bg` on the other interface. 
+interface and to host `ha` on the other interface. 
 
 ![Net3](Figs/net3.drawio.png)
 
@@ -64,7 +64,7 @@ Run the lab through `kathara lstart` and test connectivity and performance
     |---             |---      |---        |
     | ...            |         |           |
 
-  * **Q1.4** Through `ping` with a single ICMP packet, report the output of the connectivity test between: `ha-r1`, `hb-R1`, `ha-hb`. Is the network well configured?
+  * **Q1.4** Through `ping` with a single ICMP packet, report the output of the connectivity test between: `ha-r1`, `hb-r1`, `ha-hb`. Is the network well configured?
     What is missing?
 
 Implement the required changes. Restart the lab. Go again through Q1.1-1.4. Is the network properly configured now?
@@ -118,7 +118,7 @@ Implement the scenario on Kathara by creating the necessary files. Run the scena
   * **Q2.3** Show the routing path `ha->hb` and `hb->ha` through `traceroute`. Check that the implemented configuration is the one intended.
   * **Q2.4** What is the routing algorithm running at r1 and r2? How can you answer this question? Find the appropriate commands.
   * **Q2.5** Why is the routing problem solved in this way at r1 and r2? And how can the network example work, in this case? 
-<!---
+
 ## 3. Routing in a loop topology
 
 Consider the topology below.
@@ -165,7 +165,7 @@ Consider the topology below.
 **Q3.5** (Optional) Show a routing table (as similar as possible to **Q3.2**) that would lead to a routing loop. For which destination IPs a routing loop will occur? 
 
 **Q3.6** (Optional) Configure the routing table as in Q3.5 and show the effect of a routing loop using `ping` and `traceroute`. 
-
+<!--
 ## 3. Routing in a loop topology (solution)
 
 The network configuraton in ``lab.conf`` is the following:
@@ -412,4 +412,4 @@ traceroute to 1.2.3.4 (1.2.3.4), 30 hops max, 60 byte packets
  6  10.0.1.2 (10.0.1.2)  12.266 ms  11.558 ms  11.658 ms
  ...
 
- ---> 
+ -->
