@@ -1,0 +1,10 @@
+ip address add 69.0.0.2/25 dev eth0 
+ip address add 69.0.1.1/30 dev eth1 
+ip address add 69.0.1.9/30 dev eth2
+
+ip route add 69.0.1.4/30 via 69.0.1.2 dev eth1 
+
+ip route add 69.0.1.12/30 via 69.0.1.10 dev eth2
+
+ip route add 69.0.0.128/25 via 69.0.1.2 dev eth1 weight 1
+ip route append  69.0.0.128/25 via 69.0.1.10 dev eth2 weight 1

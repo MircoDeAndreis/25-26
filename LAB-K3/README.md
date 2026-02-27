@@ -55,9 +55,13 @@ ip address add 192.168.2.128/24 dev eth1
 Run the lab through `kathara lstart` and test connectivity and performance
 
   * **Q1.1** Through `ip address`, report the IP address for all the interfaces (excluded the local loop).
-
+    * 192.168.1.1 eth0 pc1
+    * 192.168.1.128 eth0 r1
+    * 192.168.2.128 eth1 r2
+    * 192.168.2.1 eth0 pc2
   * **Q1.2** Through `ip route`, report the routing tables for `ha`, `hb` and `r1`.
-
+    * 192.168.1.128 eth0 ha
+    * 192.168.2.128 eth0 hb
   * **Q1.3** Report the three routing tables according to the following scheme:
     
     | Network prefix | Gateway | Interface |
@@ -129,27 +133,27 @@ Consider the topology below.
 
 | Network | Network address|
 | ---| ---|
-| neta1  ||
-|net12  |   |
-|net24  |   |
-|net13  |   |
-|net34  |   |
-| net4b| |
+| neta1  |69.0.0.0/25|
+|net12  | 69.0.1.0/30  |
+|net24  | 69.0.1.4/30  |
+|net13  | 69.0.1.8/30  |
+|net34  | 69.0.1.12/30  |
+| net4b| 69.0.0.128/25 |
 
 | Interface | IP address/netmask |
 |---|--- |
-| ha | |
-| hb||
-| r1a ||
-| r12 | |
-| r13 | |
-| r21 ||
-| r24 ||
-| r31 ||
-| r34||
-| r42 ||
-|r43||
-|r4b||
+| ha  | 69.0.0.1 |
+| hb  | 69.0.0.130 |
+| r1a | 69.0.0.2 |
+| r12 | 69.0.1.1 |
+| r13 | 69.0.1.9 |
+| r21 | 69.0.1.2 |
+| r24 | 69.0.1.5 |
+| r31 | 69.0.1.10 |
+| r34 | 69.0.1.13 |
+| r42 | 69.0.1.6 |
+| r43 | 69.0.1.14 |
+| r4b | 69.0.0.129 |
 
 
 **Q3.2** Configure the routing tables for each device such that *the traffic follow a clockwise direction within the loop* inside the topology. Fill the following table.
