@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux Networking Commands: net-tools vs iproute2</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f3f4f6;
+    --bg3: #e9eaec;
+    --border: #d0d5dd;
+    --old: #c0410a;
+    --new: #1a7f37;
+    --accent: #0969da;
+    --muted: #57606a;
+    --text: #1f2328;
+    --deprecated: #cf222e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 2.5rem 1.5rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  header .label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+  }
+
+  .deprecated-badge {
+    display: inline-block;
+    margin-top: 0.8rem;
+    background: rgba(248, 81, 73, 0.15);
+    border: 1px solid var(--deprecated);
+    color: var(--deprecated);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+  }
+
+  .table-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  thead tr {
+    background: var(--bg2);
+    border-bottom: 2px solid var(--border);
+  }
+
+  thead th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  thead th.col-task { color: var(--accent); }
+  thead th.col-old { color: var(--old); }
+  thead th.col-new { color: var(--new); }
+  thead th.col-note { color: var(--muted); }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  tbody tr.section-header td {
+    background: rgba(9, 105, 218, 0.06);
+    color: var(--accent);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border-bottom: 1px solid rgba(9, 105, 218, 0.2);
+  }
+
+  td {
+    padding: 0.75rem 1.2rem;
+    vertical-align: top;
+  }
+
+  td.col-task {
+    color: var(--text);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    display: block;
+    line-height: 1.6;
+  }
+
+  td.col-old code { color: var(--old); }
+  td.col-new code { color: var(--new); }
+
+  td.col-note {
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+  }
+
+  .tag-split {
+    background: rgba(26, 127, 55, 0.1);
+    border: 1px solid rgba(26, 127, 55, 0.4);
+    color: var(--new);
+  }
+
+  .tag-same {
+    background: rgba(9, 105, 218, 0.1);
+    border: 1px solid rgba(9, 105, 218, 0.3);
+    color: var(--accent);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">Linux Networking Reference</div>
+  <h1>net-tools vs iproute2</h1>
+  <p>Comparative command reference for MAC/IP address and route management</p>
+  <div class="deprecated-badge">⚠ net-tools is deprecated — prefer iproute2</div>
+</header>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-task">Task</th>
+        <th class="col-old">net-tools (old)</th>
+        <th class="col-new">iproute2 (modern)</th>
+        <th class="col-note">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- INTERFACES -->
+      <tr class="section-header"><td colspan="4">// Interfaces &amp; Link Layer</td></tr>
+
+      <tr>
+        <td class="col-task">Show all interfaces</td>
+        <td class="col-old"><code>ifconfig -a</code></td>
+        <td class="col-new"><code>ip link show</code></td>
+        <td class="col-note">ip link shows L2 info; ip addr show adds IP addresses</td>
+      </tr>
+      <tr>
+        <td class="col-task">Bring interface up</td>
+        <td class="col-old"><code>ifconfig eth0 up</code></td>
+        <td class="col-new"><code>ip link set eth0 up</code></td>
+        <td class="col-note"></td>
+      </tr>
+      <tr>
+        <td class="col-task">Bring interface down</td>
+        <td class="col-old"><code>ifconfig eth0 down</code></td>
+        <td class="col-new"><code>ip link set eth0 down</code></td>
+        <td class="col-note"></td>
+      </tr>
+      <tr>
+        <td class="col-task">Change MAC address</td>
+        <td class="col-old"><code>ifconfig eth0 hw ether AA:BB:CC:DD:EE:FF</code></td>
+        <td class="col-new"><code>ip link set eth0 address AA:BB:CC:DD:EE:FF</code></td>
+        <td class="col-note">Interface must be down first</td>
+      </tr>
+      <tr>
+        <td class="col-task">Set MTU</td>
+        <td class="col-old"><code>ifconfig eth0 mtu 9000</code></td>
+        <td class="col-new"><code>ip link set eth0 mtu 9000</code></td>
+        <td class="col-note">Jumbo frames for high-throughput networks</td>
+      </tr>
+      <tr>
+        <td class="col-task">Enable promiscuous mode</td>
+        <td class="col-old"><code>ifconfig eth0 promisc</code></td>
+        <td class="col-new"><code>ip link set eth0 promisc on</code></td>
+        <td class="col-note">Needed for packet capture / bridging</td>
+      </tr>
+
+      <!-- IP ADDRESSES -->
+      <tr class="section-header"><td colspan="4">// IP Addresses</td></tr>
+
+      <tr>
+        <td class="col-task">Show IP addresses</td>
+        <td class="col-old"><code>ifconfig eth0</code></td>
+        <td class="col-new"><code>ip addr show eth0</code></td>
+        <td class="col-note"><span class="tag tag-split">split</span> ip separates L2 (link) from L3 (addr)</td>
+      </tr>
+      <tr>
+        <td class="col-task">Assign IP address</td>
+        <td class="col-old"><code>ifconfig eth0 192.168.1.10 netmask 255.255.255.0</code></td>
+        <td class="col-new"><code>ip addr add 192.168.1.10/24 dev eth0</code></td>
+        <td class="col-note">ip uses CIDR notation; does not replace existing address</td>
+      </tr>
+      <tr>
+        <td class="col-task">Remove IP address</td>
+        <td class="col-old"><code>ifconfig eth0 0.0.0.0</code></td>
+        <td class="col-new"><code>ip addr del 192.168.1.10/24 dev eth0</code></td>
+        <td class="col-note">Must specify the exact address to remove</td>
+      </tr>
+      <tr>
+        <td class="col-task">Add secondary IP (alias)</td>
+        <td class="col-old"><code>ifconfig eth0:1 10.0.0.1 netmask 255.0.0.0 up</code></td>
+        <td class="col-new"><code>ip addr add 10.0.0.1/8 dev eth0</code></td>
+        <td class="col-note">iproute2 natively supports multiple addresses; no alias needed</td>
+      </tr>
+      <tr>
+        <td class="col-task">Assign IP and bring up</td>
+        <td class="col-old"><code>ifconfig eth0 192.168.1.10 netmask 255.255.255.0 up</code></td>
+        <td class="col-new"><code>ip addr add 192.168.1.10/24 dev eth0<br>ip link set eth0 up</code></td>
+        <td class="col-note"><span class="tag tag-split">split</span> two commands in iproute2</td>
+      </tr>
+
+      <!-- ROUTING -->
+      <tr class="section-header"><td colspan="4">// Routing</td></tr>
+
+      <tr>
+        <td class="col-task">Show routing table</td>
+        <td class="col-old"><code>route -n</code></td>
+        <td class="col-new"><code>ip route show</code></td>
+        <td class="col-note">-n avoids DNS lookups in old command</td>
+      </tr>
+      <tr>
+        <td class="col-task">Add default gateway</td>
+        <td class="col-old"><code>route add default gw 192.168.1.1</code></td>
+        <td class="col-new"><code>ip route add default via 192.168.1.1</code></td>
+        <td class="col-note">"via" maps clearly to "next hop" concept</td>
+      </tr>
+      <tr>
+        <td class="col-task">Delete default gateway</td>
+        <td class="col-old"><code>route del default gw 192.168.1.1</code></td>
+        <td class="col-new"><code>ip route del default via 192.168.1.1</code></td>
+        <td class="col-note"></td>
+      </tr>
+      <tr>
+        <td class="col-task">Add static route</td>
+        <td class="col-old"><code>route add -net 10.0.0.0 netmask 255.0.0.0 gw 192.168.1.1</code></td>
+        <td class="col-new"><code>ip route add 10.0.0.0/8 via 192.168.1.1</code></td>
+        <td class="col-note">CIDR is shorter and cleaner</td>
+      </tr>
+      <tr>
+        <td class="col-task">Add route via interface</td>
+        <td class="col-old"><code>route add -net 10.0.0.0 netmask 255.0.0.0 dev eth0</code></td>
+        <td class="col-new"><code>ip route add 10.0.0.0/8 dev eth0</code></td>
+        <td class="col-note">For directly connected networks</td>
+      </tr>
+      <tr>
+        <td class="col-task">Delete static route</td>
+        <td class="col-old"><code>route del -net 10.0.0.0 netmask 255.0.0.0</code></td>
+        <td class="col-new"><code>ip route del 10.0.0.0/8</code></td>
+        <td class="col-note"></td>
+      </tr>
+      <tr>
+        <td class="col-task">Show route for destination</td>
+        <td class="col-old"><code>route get 8.8.8.8</code> <em>(not available)</em></td>
+        <td class="col-new"><code>ip route get 8.8.8.8</code></td>
+        <td class="col-note">iproute2 exclusive — shows exact path used</td>
+      </tr>
+
+      <!-- ARP -->
+      <tr class="section-header"><td colspan="4">// ARP — Address Resolution Protocol</td></tr>
+
+      <tr>
+        <td class="col-task">Show ARP table</td>
+        <td class="col-old"><code>arp -n</code></td>
+        <td class="col-new"><code>ip neigh show</code></td>
+        <td class="col-note">"neigh" = neighbor table (ARP for IPv4, NDP for IPv6)</td>
+      </tr>
+      <tr>
+        <td class="col-task">Add static ARP entry</td>
+        <td class="col-old"><code>arp -s 192.168.1.5 AA:BB:CC:DD:EE:FF</code></td>
+        <td class="col-new"><code>ip neigh add 192.168.1.5 lladdr AA:BB:CC:DD:EE:FF dev eth0 nud permanent</code></td>
+        <td class="col-note">nud = Neighbor Unreachability Detection state</td>
+      </tr>
+      <tr>
+        <td class="col-task">Delete ARP entry</td>
+        <td class="col-old"><code>arp -d 192.168.1.5</code></td>
+        <td class="col-new"><code>ip neigh del 192.168.1.5 dev eth0</code></td>
+        <td class="col-note"></td>
+      </tr>
+      <tr>
+        <td class="col-task">Flush ARP cache</td>
+        <td class="col-old"><em>(not available)</em></td>
+        <td class="col-new"><code>ip neigh flush dev eth0</code></td>
+        <td class="col-note">iproute2 exclusive</td>
+      </tr>
+
+      <!-- SOCKETS -->
+      <tr class="section-header"><td colspan="4">// Socket &amp; Connection Monitoring</td></tr>
+
+      <tr>
+        <td class="col-task">Show listening ports</td>
+        <td class="col-old"><code>netstat -tuln</code></td>
+        <td class="col-new"><code>ss -tuln</code></td>
+        <td class="col-note"><span class="tag tag-same">same flags</span></td>
+      </tr>
+      <tr>
+        <td class="col-task">Show connections with process</td>
+        <td class="col-old"><code>netstat -tunp</code></td>
+        <td class="col-new"><code>ss -tunp</code></td>
+        <td class="col-note">ss is faster via netlink; shows more TCP detail</td>
+      </tr>
+      <tr>
+        <td class="col-task">Show socket summary</td>
+        <td class="col-old"><code>netstat -s</code></td>
+        <td class="col-new"><code>ss -s</code></td>
+        <td class="col-note"></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  net-tools package: ifconfig · route · arp · netstat &nbsp;|&nbsp; iproute2 package: ip · ss
+</footer>
+
+</body>
+</html>
