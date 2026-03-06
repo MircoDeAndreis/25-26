@@ -169,7 +169,7 @@ Consider the topology below.
 **Q3.5** (Optional) Show a routing table (as similar as possible to **Q3.2**) that would lead to a routing loop. For which destination IPs a routing loop will occur? 
 
 **Q3.6** (Optional) Configure the routing table as in Q3.5 and show the effect of a routing loop using `ping` and `traceroute`. 
-<!--
+
 ## 3. Routing in a loop topology (solution)
 
 The network configuraton in ``lab.conf`` is the following:
@@ -378,6 +378,7 @@ traceroute to 10.0.0.129 (10.0.0.129), 30 hops max, 60 byte packets
  4  10.0.0.129 (10.0.0.129)  7.220 ms  7.751 ms  8.281 ms
 ```
 
+<!--
 **Q3.5**
 To generate a loop, it is enough to substitute the following entry in the routing table of **r4**:
 
