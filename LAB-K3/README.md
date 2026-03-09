@@ -99,18 +99,18 @@ Consider the topology below.
 
 | Network | Network address|
 | ---| ---|
-| neta1  ||
-|net12  |   |
-| net2b| |
+| neta1  | 10.69.0.0/22|
+|net12  |  10.69.8.0/30 |
+| net2b| 10.69.4.0/22 |
 
 | Interface | IP address/netmask |
 |---|--- |
-| ha | |
-| hb
-| r1a | |
-| r12 | |
-| r21 | |
-| r2b | |
+| ha | 10.69.0.1 |
+| hb | 10.69.4.2 |
+| r1a | 10.69.0.2 |
+| r12 | 10.69.8.1 |
+| r21 | 10.69.8.2 |
+| r2b | 10.69.4.1 |
 
   * **Q2.2** Configure the routing tables for each device. Fill in the following table.
 
@@ -167,8 +167,41 @@ Consider the topology below.
 **Q3.4** Show the output of `traceroute` for path `ha->hb` and for path `hb->ha`.
 
 **Q3.5** (Optional) Show a routing table (as similar as possible to **Q3.2**) that would lead to a routing loop. For which destination IPs a routing loop will occur? 
+  * ip route add 10.0.0.129/32 via 10.0.1.13 #It's looping because 10.0.0.129/32 it is more specific than a the network 10.0.0.128/25.
+ip route add 10.0.0.0/25 via 10.0.1.13
 
 **Q3.6** (Optional) Configure the routing table as in Q3.5 and show the effect of a routing loop using `ping` and `traceroute`. 
+  *  traceroute to 10.0.0.129 (10.0.0.129), 30 hops max, 60 byte packets
+ 1  10.0.0.8 (10.0.0.8)  14.152 ms  9.122 ms  9.404 ms
+ 2  10.0.1.9 (10.0.1.9)  14.856 ms  15.369 ms  15.728 ms
+ 3  10.0.1.14 (10.0.1.14)  16.468 ms  17.223 ms  17.927 ms
+ 4  10.0.1.6 (10.0.1.6)  18.668 ms  19.454 ms  20.136 ms
+ 5  10.0.0.8 (10.0.0.8)  20.979 ms  18.967 ms  19.550 ms
+ 6  10.0.1.9 (10.0.1.9)  20.278 ms  12.158 ms  12.819 ms
+ 7  10.0.1.14 (10.0.1.14)  13.474 ms  12.536 ms  12.112 ms
+ 8  10.0.1.6 (10.0.1.6)  11.689 ms  11.237 ms  11.233 ms
+ 9  10.0.0.8 (10.0.0.8)  11.203 ms  11.112 ms  11.077 ms
+10  10.0.1.9 (10.0.1.9)  13.037 ms  13.892 ms  13.829 ms
+11  10.0.1.14 (10.0.1.14)  14.188 ms  14.769 ms  14.895 ms
+12  10.0.1.6 (10.0.1.6)  15.684 ms  16.649 ms  17.032 ms
+13  10.0.0.8 (10.0.0.8)  17.190 ms  18.210 ms  18.781 ms
+14  10.0.1.9 (10.0.1.9)  22.086 ms  22.523 ms  22.496 ms
+15  10.0.1.14 (10.0.1.14)  22.693 ms  20.891 ms  21.293 ms
+16  10.0.1.6 (10.0.1.6)  20.740 ms  20.585 ms  19.829 ms
+17  10.0.0.8 (10.0.0.8)  19.382 ms  18.424 ms  18.687 ms
+18  10.0.1.9 (10.0.1.9)  21.922 ms  21.324 ms  21.395 ms
+19  10.0.1.14 (10.0.1.14)  21.018 ms  19.122 ms  19.564 ms
+20  10.0.1.6 (10.0.1.6)  19.201 ms  18.760 ms  18.263 ms
+21  10.0.0.8 (10.0.0.8)  16.733 ms  16.996 ms  17.013 ms
+22  10.0.1.9 (10.0.1.9)  19.906 ms  19.880 ms  19.930 ms
+23  10.0.1.14 (10.0.1.14)  20.102 ms  19.025 ms  19.476 ms
+24  10.0.1.6 (10.0.1.6)  18.785 ms  19.064 ms  18.258 ms
+25  10.0.0.8 (10.0.0.8)  19.445 ms  19.066 ms  18.627 ms
+26  10.0.1.9 (10.0.1.9)  21.054 ms  20.863 ms  20.660 ms
+27  10.0.1.14 (10.0.1.14)  20.150 ms  18.851 ms  18.970 ms
+28  10.0.1.6 (10.0.1.6)  18.490 ms  17.041 ms  15.119 ms
+29  10.0.0.8 (10.0.0.8)  14.817 ms  14.617 ms  14.580 ms
+30  10.0.1.9 (10.0.1.9)  13.865 ms  11.498 ms  11.663 ms
 <!--
 ## 3. Routing in a loop topology (solution)
 
