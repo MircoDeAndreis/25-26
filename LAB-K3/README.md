@@ -168,7 +168,7 @@ Consider the topology below.
 
 **Q3.5** (Optional) Show a routing table (as similar as possible to **Q3.2**) that would lead to a routing loop. For which destination IPs a routing loop will occur? 
   * ip route add 10.0.0.129/32 via 10.0.1.13 #It's looping because 10.0.0.129/32 it is more specific than a the network 10.0.0.128/25.
-ip route add 10.0.0.0/25 via 10.0.1.13
+  ip route add 10.0.0.0/25 via 10.0.1.13
 
 **Q3.6** (Optional) Configure the routing table as in Q3.5 and show the effect of a routing loop using `ping` and `traceroute`. 
   *  traceroute to 10.0.0.129 (10.0.0.129), 30 hops max, 60 byte packets
@@ -202,7 +202,7 @@ ip route add 10.0.0.0/25 via 10.0.1.13
 28  10.0.1.6 (10.0.1.6)  18.490 ms  17.041 ms  15.119 ms
 29  10.0.0.8 (10.0.0.8)  14.817 ms  14.617 ms  14.580 ms
 30  10.0.1.9 (10.0.1.9)  13.865 ms  11.498 ms  11.663 ms
-<!--
+
 ## 3. Routing in a loop topology (solution)
 
 The network configuraton in ``lab.conf`` is the following:
@@ -411,6 +411,7 @@ traceroute to 10.0.0.129 (10.0.0.129), 30 hops max, 60 byte packets
  4  10.0.0.129 (10.0.0.129)  7.220 ms  7.751 ms  8.281 ms
 ```
 
+<!--
 **Q3.5**
 To generate a loop, it is enough to substitute the following entry in the routing table of **r4**:
 
