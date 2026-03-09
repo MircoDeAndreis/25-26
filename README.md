@@ -23,15 +23,17 @@ This Repository contains the course material.
 * [LAB-K1](LAB-K1)
 * [LAB-K2](LAB-K2)
 
-# Week 2
+# Week 2-3
 * [two computers](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/two-computers.pdf)
 * [static routing](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/static-routing.pdf)
 * [LAB-K3](LAB-K3)
 
-# Week 3
-* [LAB-K4](LAB-K4)
-
 # Week 4
-* [LAB-K5](LAB-K5)
+
+RIP
+[Intro to FRR](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/frr.pdf)
+[RIP](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
+
+
 
 <!-- cmvn -->
