@@ -11,7 +11,7 @@ Moodle site of the course: https://informatica.i-learn.unito.it/course/view.php?
 
 This Repository contains the course material. 
 > [!IMPORTANT]
-> As preliminary step, update your local copy with `git pull`.
+> As a preliminary step, update your local copy with `git pull`.
 > The course material is constantly updated. Important updates are notified in the announcements section of the Moodle site of the course.   
 
 # Week 1
@@ -31,7 +31,8 @@ This Repository contains the course material.
 # Week 4
 * [Intro to FRR](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/frr.pdf)
 * [RIP](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
-
+* [LAB-FRR](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/frrouting-introduction)
+* [LAB-RIP](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/rip)
 
 
 <!-- cmvn -->
