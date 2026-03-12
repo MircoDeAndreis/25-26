@@ -1,4 +1,4 @@
-# Complementi di Reti (Advanced Computer Networks)
+# 
 This course provides students with practical experience in modern network architecture, protocols, and administration through hands-on virtual laboratories. Students will work with emulated network scenarios to master both theoretical concepts and practical implementations.
 
 See https://laurea.informatica.unito.it/do/corsi.pl/Show?_id=pgrx for more info.
