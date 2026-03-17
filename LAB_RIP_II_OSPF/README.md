@@ -17,19 +17,43 @@ Set up the lab configuration files and those of each router to implement the fol
 <img width="2349" height="1183" alt="image" src="https://github.com/user-attachments/assets/3c46b60f-6a2b-455b-8b84-bda0bbfecb67" />
 In lab.conf, add the lines
 
-`bb0[0]=A`  
-`bb0[1]=C`  
-`bb0[image]="kathara/frr"`  
-`(...)`
-
+~~~
+bb0[0]=A  
+bb0[1]=C  
+bb0[image]="kathara/frr"  
+(...)
+~~~
 The `.startup` file for each router will be of the form:
 
-`ip address add 10.0.0.3/24 dev eth0`  
-`ip address add 10.0.2.3/24 dev eth1`  
-`systemctl start frr`  
-
+~~~
+ip address add 10.0.0.3/24 dev eth0  
+ip address add 10.0.2.3/24 dev eth1  
+systemctl start frr
+~~~
 
 Remember to edit `/etc/frr/daemons` to enable OSPF (`ospfd=yes`).
+
+Example of frr configuration file:
+
+~~~
+!
+! FRRouting configuration file
+!
+
+!
+! Default cost for exiting an interface is 10
+interface eth0
+	ospf cost 21
+interface eth1
+	ospf cost 36
+!
+router ospf
+! Speak OSPF on all interfaces falling in the listed subnets
+network 10.0.0.0/16 area 0.0.0.0
+!
+~~~
+
+
 
 
 ## Basic OSPF Configuration
