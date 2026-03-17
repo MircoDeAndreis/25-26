@@ -34,11 +34,10 @@ This Repository contains the course material.
 * [LAB-FRR](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/frrouting-introduction)
 * [LAB-RIP](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/rip)
 
-# Week 5: RIP II, OSPF
+# Week 5: OSPF
 
-* [OSPF](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
-* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)
-* [LAB RIP II](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)
+* [OSPF](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_theory.pptx)
+<!--* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)-->
 
 
 
