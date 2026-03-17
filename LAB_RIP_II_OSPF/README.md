@@ -7,9 +7,12 @@ This lab uses the OSPF simple lab topology from Kathara with FRRouting (FRR). Yo
 Answer preparation questions before the lab and perform hands-on experiments during the session.
 
 ## Preparation
-Review OSPF concepts: link-state algorithm, areas, DR/BDR election, LSAs, SPF computation.
+Review OSPF concepts: link-state algorithm, areas, DR/BDR election.  
 
-Review FRR commands like `show ip ospf neighbor`, `show ip ospf database`, `show ip ospf route`.
+**Question 0:** What is an LSA? How are LSA IDs and Router IDs determined in OSPF? 
+An LSA is a small packet of routing information that a router creates and floods to every other OSPF router in the area (or the whole network).  
+<img width="1827" height="1221" alt="image" src="https://github.com/user-attachments/assets/bef2db4e-c36e-4bd0-91c1-6f9238d3465e" />
+<img width="1748" height="1062" alt="image" src="https://github.com/user-attachments/assets/83f5bcb5-d3d3-4324-91b9-b3ad06e45f6a" />
 
 ## Setup
 
@@ -59,9 +62,11 @@ First, answer the following questions:
 **Question 1:** What does the command `show ip ospf neighbor` do?
 
 <img width="1795" height="848" alt="image" src="https://github.com/user-attachments/assets/f790ed5d-8d1c-4395-8250-bb9615da57b2" />
+<img width="1797" height="612" alt="image" src="https://github.com/user-attachments/assets/ce5f3868-b019-4fc9-87db-bd4d8b2fbcfa" />
 
 
-**Question 2:** What does the command  `show ip ospf database` do? 
+**Question 2:** What does the command  `show ip ospf database` do?  
+
 **`show ip ospf database`** is the command that displays the **complete OSPF Link-State Database (LSDB)** on the router.
 
 This is the “brain” of OSPF — it contains every Link-State Advertisement (LSA) the router has received (or originated) for all areas it participates in. Running this command lets you see exactly what topology information OSPF is using to build its routing table.
@@ -89,16 +94,18 @@ Link ID         ADV Router      Age         Seq#       Checksum
 Link ID         ADV Router      Age         Seq#       Checksum
 10.20.20.0      192.168.1.1     567         0x80000002 0x00E7A1
 
-**Question 3:** What does the command  `show ip ospf route` do? 
-OSPF RIB: N intra-area subnets (cost/area/via if/next-hop); O routers. Shows SPF shortest paths from LSDB + link costs.
+```
+<img width="1640" height="695" alt="image" src="https://github.com/user-attachments/assets/36d9dec3-d4a0-4248-938a-3e39e77584b6" />
+
+**Question 3:** What does the command  `show ip ospf route` do? Why some of the routes may not be present in the global IP routing table? 
+
+<img width="1390" height="393" alt="image" src="https://github.com/user-attachments/assets/6cc7da0a-18e9-4b59-a802-eb6c2409eb09" />
+<img width="1404" height="702" alt="image" src="https://github.com/user-attachments/assets/11572aa9-461e-4ec5-b9b2-9d52d0814254" />
+<img width="1404" height="459" alt="image" src="https://github.com/user-attachments/assets/64f22ad4-fe57-475a-a1e7-03e5dedb5c7a" />
 
 **Question 4:** What does the command  `show ip ospf interface` do? 
 
-
-
-
-
-
+<img width="1669" height="843" alt="image" src="https://github.com/user-attachments/assets/ad982193-bdb6-4aae-ae06-caf21edba8ad" />
 
 **Question 1:** Run `show ip ospf neighbor` on all routers. How many neighbors per router? Explain Full/DR/DROther states.  
 
