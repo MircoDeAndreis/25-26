@@ -12,6 +12,7 @@ Review OSPF concepts: link-state algorithm, areas, DR/BDR election, LSAs, SPF co
 Review FRR commands like `show ip ospf neighbor`, `show ip ospf database`, `show ip ospf route`.
 
 Prepare by drawing the lab topology: routers A (backbone), B, C, D with links 10.0.0.0/24 (A), 10.0.1.0/24 (B), 10.0.2.0/24 (C), 10.0.3.0/24 (D), tweaked costs (e.g., eth1 on A cost 45).
+<img width="2349" height="1183" alt="image" src="https://github.com/user-attachments/assets/3c46b60f-6a2b-455b-8b84-bda0bbfecb67" />
 
 ## Organization
 Work in pairs on a Kathara setup matching the OSPF lab topology (likely provided or from lab_ospf_kathara.pdf). Use vtysh for FRR CLI. Collaborate with nearby groups for traceroute observations. X = your router ID (e.g., A=10.0.3.1).[file:2]
