@@ -1,8 +1,7 @@
-# OSPF Lab Exercise
-**March 17, 2026** 
+# OSPF Lab I
 
 ## Abstract
-This lab uses the OSPF simple lab topology from Kathara with FRRouting (FRR). You will configure single-area OSPF, observe shortest paths influenced by interface costs, Designated Routers (DR), Link State Database (LSDB), and topology changes. 
+This lab uses the OSPF simple lab topology from Kathara with FRRouting (FRR). You will configure single-area OSPF and observe shortest paths affected by interface costs, Designated Routers (DRs), the Link State Database (LSDB), and topology changes. 
 
 Answer preparation questions before the lab and perform hands-on experiments during the session.
 
@@ -111,47 +110,47 @@ Link ID         ADV Router      Age         Seq#       Checksum
 
 Expect 2 neighbors on most (e.g., bb1: bb0, bb2). Full state for LSDB sync; DR elected by priority (default 1), tiebreak Router ID.
 
-## OSPF Traceroute Experiments
-
 Perform traceroutes from/to different interfaces to verify SPF paths and symmetry.
 
-- Run `traceroute 10.0.2.1` from **bb1**  
+**Question 6:** Run `traceroute 10.0.2.1` from **bb1**. What do you observe?  
+
   - Expected path: Low-cost route (e.g., bb1 → bb0 → bb2; cost 21 + 10 vs. higher cost 45)  
   - ICMP reply path: Symmetric (reverse path follows the same SPF tree due to shared LSDB)
 
-- Run `traceroute 10.0.3.2` from **bb1**  
+**Question 7:** Run `traceroute 10.0.3.2` from **bb1**,What do you observe?
+
   - Expected path: bb1 → bb0 → bb3 (cost 36 + 10 = 46)
 
-- Observe the routing table:  
-  - Command: `vtysh -c 'show ip route'`  
-  - `O` = OSPF routes  
-  - `C` = Connected routes (preferred for directly connected networks)
-
-- Modify OSPF costs:  
-  - Use interface configuration: `interface ethX` → `ip ospf cost Y`  
-  - Optionally reset OSPF: `clear ip ospf process`  
-  - Re-run traceroute and observe SPF recalculation (new LSAs and path changes)
-
-
-## LSDB and Topology View
-**Question 2:** Run `show ip ospf database` (router, network LSAs). Verify identical LSDB across routers? Decode one Router LSA: Link ID, Links.  
-**Solution:** Yes, identical in single area. Router LSA Link ID=Router ID, links to Transit Networks (DR addr).
-
-## Shortest Paths and Costs
-**Question 3:** `show ip ospf route`. Predict traceroute bb1 (10.0.0.1?) to 10.0.2.1 path/cost. Run `traceroute 10.0.2.1`. Matches? Reply path same?  
-**Solution:** Via low-cost path (e.g., cost 21 via bb0), not high-cost 45. Symmetric due to shared LSDB.
+**Question 8:** Modify OSPF costs. Re-run traceroute and observe SPF recalculation (new LSAs and path changes). How long does it take to reconverge after the changes? How can you explain that?
 
 ## DR Election
-**Question 4:** Identify DR per segment (e.g., 10.0.0.0/24 DR=10.0.3.1). `show ip ospf interface`. Why infrequent changes?  
+**Question 9:** Identify DR per segment (e.g., 10.0.0.0/24 DR=10.0.3.1). Why are changes so infrequent?  
+
 **Solution:** Highest priority/Router ID. New DR floods LSAs, so stable unless failure.
 
-## Topology Changes
-**Question 5:** Down link (e.g., `ip link set eth1 down` on bb1). Observe `show ip ospf route` changes. Time to converge? LSDB update?  
-**Solution:** Fast for link (immediate LSA), slower for router/DR (DeadInterval 40s or MaxAge 1h).
+**Question 10:** Shut down interface **eth1** on **bb1**. What changes do you observe in the network?  
+Specifically, analyze:
+- OSPF convergence time  
+- Link State Database (LSDB) updates  
 
-## Cost Modifications
-**Question 6:** Change cost (e.g., `interface eth1`, `ospf cost 5`). Predict/verify new paths via traceroute.  
-**Solution:** SPF recomputes; observe shift to lower total cost path.
+**Solution:**
+- When the interface goes down, OSPF immediately detects the link failure and generates a new LSA reflecting the change.  
+- This triggers a fast update across the network and recalculation of SPF paths.  
 
-## Cleanup
-Stop FRR: `killall ospfd zebra`. `kathara lclean`. Reboot if physical.[file:2]
+- **Convergence time:**
+  - **Fast for direct link failure** (triggered instantly by interface down event)  
+  - **Slower in other cases** (e.g., neighbor/DR loss), which depend on timers such as:
+    - Dead Interval (~40 seconds by default)  
+    - LSA MaxAge (up to 1 hour in worst-case scenarios)  
+
+- **LSDB behavior:** 
+  - The LSDB is quickly updated with the new topology information  
+  - Routers recompute shortest paths based on the updated LSAs  
+
+**Question 11:** Now add losses on one link interconnecting two routers.
+To do so, add to the .startup file of one of the routers:
+```plaintext
+tc qdisc add dev eth1 root netem loss 1%  # 1% random loss
+```
+Increase the losses. When do you observe variations in the LSDB? How long does it take to reconverge?
+
