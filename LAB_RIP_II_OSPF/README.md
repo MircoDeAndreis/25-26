@@ -52,17 +52,56 @@ router ospf
 network 10.0.0.0/16 area 0.0.0.0
 !
 ~~~
-
-
-
-
-## Basic OSPF Configuration
-Copy FRR configs: `cp /etc/frr/zebra.conf.sample /etc/frr/zebra.conf`, etc. Start daemons: `zebra -d`, `ospfd -d`.
-
-Telnet vtysh: `vtysh`, `conf t`, `router ospf`, `network 10.0.0.0/24 area 0.0.0.0`, `ospf cost 45 eth1` (tweak as per topology). `write`.
-
 ## OSPF Neighbor Discovery
+
+First, answer the following questions:
+
+**Question 1:** What does the command `show ip ospf neighbor` do?
+
+<img width="1795" height="848" alt="image" src="https://github.com/user-attachments/assets/f790ed5d-8d1c-4395-8250-bb9615da57b2" />
+
+
+**Question 2:** What does the command  `show ip ospf database` do? 
+**`show ip ospf database`** is the command that displays the **complete OSPF Link-State Database (LSDB)** on the router.
+
+This is the “brain” of OSPF — it contains every Link-State Advertisement (LSA) the router has received (or originated) for all areas it participates in. Running this command lets you see exactly what topology information OSPF is using to build its routing table.
+
+### Typical default output
+
+```plaintext
+Router# show ip ospf database
+
+            OSPF Router with ID (192.168.1.1) (Process ID 1)
+
+                Router Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum  Link count
+192.168.1.1     192.168.1.1     1234        0x80000005 0x00A3B1  3
+192.168.1.2     192.168.1.2     456         0x80000003 0x00F2C4  2
+
+                Net Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+10.10.10.2      192.168.1.2     789         0x80000001 0x0045D2
+
+                Summary Net Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+10.20.20.0      192.168.1.1     567         0x80000002 0x00E7A1
+
+**Question 3:** What does the command  `show ip ospf route` do? 
+OSPF RIB: N intra-area subnets (cost/area/via if/next-hop); O routers. Shows SPF shortest paths from LSDB + link costs.
+
+**Question 4:** What does the command  `show ip ospf interface` do? 
+
+
+
+
+
+
+
 **Question 1:** Run `show ip ospf neighbor` on all routers. How many neighbors per router? Explain Full/DR/DROther states.  
+
 **Solution:** Expect 2 neighbors on most (e.g., bb1: bb0, bb2). Full state for LSDB sync; DR elected by priority (default 1), tiebreak Router ID.
 
 ## LSDB and Topology View
