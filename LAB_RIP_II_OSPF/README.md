@@ -15,12 +15,22 @@ Review FRR commands like `show ip ospf neighbor`, `show ip ospf database`, `show
 
 Set up the lab configuration files and those of each router to implement the following configuration: 
 <img width="2349" height="1183" alt="image" src="https://github.com/user-attachments/assets/3c46b60f-6a2b-455b-8b84-bda0bbfecb67" />
+In lab.conf, add the lines
+
+`bb0[0]=A`  
+`bb0[1]=C`  
+`bb0[image]="kathara/frr"`  
+`(...)`
+
+The `.startup` file for each router will be of the form:
+
+`ip address add 10.0.0.3/24 dev eth0`  
+`ip address add 10.0.2.3/24 dev eth1`  
+`systemctl start frr`  
 
 
+Remember to edit `/etc/frr/daemons` to enable OSPF (`ospfd=yes`).
 
-Launch Kathara lab: `kathara lstart lab_ospf_kathara` (or similar). Routers: bb0 (10.0.2.3?), bb1 (10.0.3.1, DR), etc. Interfaces: eth0/eth1 with costs (default 10, tweaked e.g., 45,7,21,36).
-
-Configure basic IP: e.g., on bb1: `ip addr add 10.0.0.1/24 dev eth0`, `ip link set eth0 up`. Enable forwarding: `sysctl -w net.ipv4.ip_forward=1`.
 
 ## Basic OSPF Configuration
 Copy FRR configs: `cp /etc/frr/zebra.conf.sample /etc/frr/zebra.conf`, etc. Start daemons: `zebra -d`, `ospfd -d`.
