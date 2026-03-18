@@ -16,7 +16,10 @@ This Repository contains the course material.
 > As a preliminary step, update your local copy with `git pull`.
 > The course material is constantly updated. Important updates are notified in the announcements section of the Moodle site of the course.   
 
-# Available topics for dissertation (non-exhaustive list):  
+# Available topics for dissertation (non-exhaustive list)
+These are some of the topics for which we are available to supervise final dissertation projects.
+Feel free to propose your own topic. In any case, contact the lecturers to set up a project.
+
 * SDN, OpenFlow, and their emulation
 * Any protocol used in IoT
 * Sigfox, LoRa
@@ -28,7 +31,8 @@ This Repository contains the course material.
 * dApp Protocols
 * Huawei NearLink (also known as SparkLink)
 * Time Sensitive Networking
-* Infiniband, Ethernet for HPC 
+* Infiniband, Ethernet for HPC
+* Network architectures for AI (LLMs)
 
 # Week 1
 
