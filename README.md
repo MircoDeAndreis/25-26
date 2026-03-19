@@ -3,16 +3,36 @@ This course provides students with practical experience in modern network archit
 
 See https://laurea.informatica.unito.it/do/corsi.pl/Show?_id=pgrx for more info.
 
-Lecturers: Prof. Michele Garetto, Prof. Gianluca Rizzo (name.surname@unito.it)
+Lecturers: 
+Prof. Michele Garetto,  
+Prof. Gianluca Rizzo (name.surname@unito.it)  
 Tutor: Luca Barra (luca.barra@edu.unito.it)
 
-Office hours: by appointment (book via e-mail).
+Office hours: by appointment (book via e-mail).  
 Moodle site of the course: https://informatica.i-learn.unito.it/course/view.php?id=3604
 
 This Repository contains the course material. 
 > [!IMPORTANT]
 > As a preliminary step, update your local copy with `git pull`.
 > The course material is constantly updated. Important updates are notified in the announcements section of the Moodle site of the course.   
+
+# Available topics for dissertation (non-exhaustive list)
+These are some of the topics for which we are available to supervise final dissertation projects.
+Feel free to propose your own topic. In any case, contact the lecturers to set up a project.
+
+* SDN, OpenFlow, and their emulation
+* Any protocol used in IoT
+* Sigfox, LoRa
+* NB-IoT
+* Acoustic Underwater comms: protocols, routing
+* Optical Underwater comms: protocols, routing
+* Visible Light Communications
+* Protocols for vehicle platooning
+* dApp Protocols
+* Huawei NearLink (also known as SparkLink)
+* Time Sensitive Networking
+* Infiniband, Ethernet for HPC
+* Network architectures for AI (LLMs)
 
 # Week 1
 
@@ -37,8 +57,6 @@ This Repository contains the course material.
 # Week 5: OSPF
 
 * [OSPF](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_theory.pptx)
-<!--* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)-->
-
-
+* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_I.md)
 
 <!-- cmvn -->
