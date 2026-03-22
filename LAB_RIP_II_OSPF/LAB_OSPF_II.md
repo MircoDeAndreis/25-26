@@ -122,9 +122,22 @@ tc qdisc add dev eth1 root netem loss 1%  # on ABR
 ```
 Increase to 5%. Monitor LSDB variations and reconvergence in the stub area.
 
-## Advanced: Stub and External
+## Advanced: Stub and External (Complex Scenario)
 
-**Question 11:** Configure area 1.1.1.1 as `stub no-summary` on ABR (**E**) and all internal routers in that area (**I**, **J**). 
+**Preparation for ASBR:** Add ASBR router **O** to lab.conf (connected to backbone, e.g., D[2]=O):
+~~~
+O[image]="kathara/frr"
+O[0]=D
+~~~
+
+.startup for **O**:
+~~~
+ip address add 140.0.0.1/24 dev eth0
+ip address add 50.0.0.1/16 dev lo  # simulate external prefix
+systemctl start frr
+~~~
+
+**Question 11:** Configure area 1.1.1.1 as `stub no-summary` on ABR (**E**) and internals (**I**, **J**).
 
 On ABR **E** /etc/frr/frr.conf:
 ~~~
@@ -133,17 +146,46 @@ router ospf
  area 1.1.1.1 stub no-summary
 ~~~
 
-On internal stub routers (**I**, **J**):
+On **I**, **J**:
 ~~~
 router ospf
  ...
  area 1.1.1.1 stub
 ~~~
 
-Reload FRR (`systemctl restart frr`), then verify:
-- On stub internal (**I**): `show ip ospf database asbr-summary` → no LSAs.
-- On backbone (**A**): same command → sees ASBR-summary from ABR.
-- Check default route metric in stub `show ip ospf route`.
+Reload: `systemctl restart frr` on all. Verify no ASBR-summary in stub:
+- **I**: `show ip ospf database asbr-summary` → empty
+- **A** (backbone): sees summaries from **E**[file:1]
+
+**Question 12:** Configure ASBR **O** to inject external route 50.0.0.0/16 as E2.
+
+On **O** /etc/frr/frr.conf (enable bgpd too: /etc/frr/daemons bgpd=yes):
+~~~
+!
+ip prefix-list EXTERNAL permit 50.0.0.0/16
+!
+router bgp 65000  # dummy AS
+ bgp router-id 10.0.3.3
+ network 50.0.0.0/16
+ neighbor 140.0.0.2 remote-as 65000  # loop to self, or connect fabric
+!
+router ospf
+ redistribute bgp metric-type 2 metric 100 subnets
+ network 140.0.0.0/24 area 0.0.0.0
+!
+~~~
+Restart FRR on **O**. Verify:
+
+**Backbone** (**A**):
+- `show ip ospf database external` → E2 LSA from **O** (metric 100 + OSPF cost to ASBR)
+- `show ip route` → `O E2 50.0.0.0/16 [110/100] via 140.0.0.1`
+
+**Stub** (**I**):
+- `show ip ospf database external` → empty (blocked by no-summary)
+- `show ip route` → only default `O 0.0.0.0/0 [110/20] via 100.0.0.1` (to ABR)
+
+Test: `ping 50.0.0.1` from **A** → succeeds via ASBR; from **I** → via default to backbone.[file:1]
+
 
 **Question 12:** Assume ASBR **O** (in backbone) injects BGP external routes (e.g., 50.0.0.0/16).
 <img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
