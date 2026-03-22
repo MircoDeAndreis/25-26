@@ -112,9 +112,9 @@ First, answer the following questions:
 
 **Question 7:** Identify ABRs and areas. Run `show ip ospf database summary` on internal routers. Note metrics from ABR.
 
-**Question 8:** On stub router **I**, check `show ip ospf route` for default route (0.0.0.0). Why present? Metric?
+**Question 8:** On stub router **I**, check `show ip ospf route` for default route (0.0.0.0). Why is it present? What is the metric?
 
-**Question 9:** Shut down ABR link to stub (eth1 on **E**). Observe convergence time, LSDB changes, failover if ECMP.
+**Question 9:** Shut down ABR link to the stub (eth1 on **E**). Observe and note convergence time, and LSDB changes.
 
 **Question 10:** Add link loss: 
 ```plaintext
