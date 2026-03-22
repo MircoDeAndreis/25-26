@@ -13,7 +13,9 @@ Review OSPF multi-area concepts: areas (backbone 0.0.0.0, stub), ABRs, ASBRs, pa
 
 ## Setup
 
-Set up the lab configuration files and those of each router to implement the multi-area topology: 
+Set up the lab configuration files and those of each router to implement the following multi-area topology.
+
+<img width="2126" height="1352" alt="image" src="https://github.com/user-attachments/assets/dd92b472-09be-4712-b78a-3b05dc5b9ebc" />
 In lab.conf, add lines for routers A, B, C, D (backbone area 0.0.0.0), E (ABR), and others in areas like 1.1.1.1 (stub), 2.2.2.2 with FRR images.
 
 ~~~
