@@ -134,11 +134,9 @@ Increase to 5%. Monitor LSDB variations and reconvergence in the stub area.
 
 ## Advanced: Stub and External (Complex Scenario)
 
-**Preparation for ASBR:** Add ASBR router **O** to lab.conf (connected to backbone, e.g., D[2]=O):
-~~~
-O[image]="kathara/frr"
-O[0]=D
-~~~
+**Preparation for ASBR:** Add ASBR router AS100r1 to lab.conf (connected to backbone):
+<img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
+
 
 .startup for **O**:
 ~~~
@@ -168,7 +166,6 @@ Reload: `systemctl restart frr` on all. Verify no ASBR-summary in stub:
 - **A** (backbone): sees summaries from **E**
 
 **Question 12:** Configure ASBR **O** to inject external route 50.0.0.0/16 as E2.
-<img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
 On **O** /etc/frr/frr.conf (enable bgpd too: /etc/frr/daemons bgpd=yes):
 ~~~
 !
