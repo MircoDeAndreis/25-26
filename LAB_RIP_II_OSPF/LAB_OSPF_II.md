@@ -204,6 +204,7 @@ debug bgp updates
 !
 !
 ~~~
+Do not forget to enable the OSPF and BGP daemons on the appropriate routers.
 
 **Question 11:** Configure area 1.1.1.1 as `stub no-summary` on ABR (**E**) and internals (**I**, **J**).
 
