@@ -84,7 +84,7 @@ First, answer the following questions:
 
 **Question 5:** On an ABR, run `show ip ospf database router` for area 0.0.0.0 and 1.1.1.1. How many link state databases do you observe?
 
-**Question 6:** Modify interface cost on backbone link (e.g., eth1 to 50). Re-run traceroute from router r2 in the stub area. Explain how inter-area reconvergence takes place, and measure how long it takes.
+**Question 6:** Modify interface cost on backbone link (e.g., eth0 on bb0 to 50). Re-run traceroute from router r2 in the stub area. Explain how inter-area reconvergence takes place, and measure how long it takes.
 
 ## ABR and Path Types
 
