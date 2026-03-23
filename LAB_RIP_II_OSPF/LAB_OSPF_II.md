@@ -16,7 +16,7 @@ Review OSPF multi-area concepts: areas (backbone, stub), ABRs, ASBRs, path types
 Set up the lab configuration files and the router configuration files to implement the following multi-area topology.
 
 <img width="2126" height="1352" alt="image" src="https://github.com/user-attachments/assets/dd92b472-09be-4712-b78a-3b05dc5b9ebc" />
-Remember to edit `/etc/frr/daemons` to enable OSPF (`ospfd=yes`).
+Remember to edit `/etc/frr/daemons` to enable OSPF (`ospfd=yes`). Create one subfolder and a `.startup` file for each router. 
 Example FRR configuration file `frr.conf` for backbone router bb1:
 
 ~~~
