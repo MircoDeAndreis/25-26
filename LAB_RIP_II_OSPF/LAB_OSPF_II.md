@@ -101,7 +101,7 @@ It is present because stub areas automatically receive a default route from the 
 The metric (e.g., 11) reflects the ABR-advertised cost: OSPF seed metric 10 + link cost to ABR (e.g., 1), with AD 110; backbone routers lack this default.
 -->
 
-**Question 9:** Shut down ABR link to the stub (eth2 on bb1). Observe and note convergence time, and LSDB changes.
+**Question 9:** Shut down ABR link to the stub (eth2 on bb1). Observe and note convergence time and LSDB changes.
 <!--
 Shutting down eth1 on ABR **E** (link to stub area 1.1.1.1) triggers fast OSPF reconvergence (~1-5 seconds in FRR lab). 
 
@@ -132,9 +132,12 @@ tc qdisc add dev eth1 root netem loss 1%  # on ABR
 ```
 Increase to 5%. Monitor LSDB variations and reconvergence in the stub area.
 
-## Advanced: Stub and External (Complex Scenario)
+**Question 1:** Reconfigure the backbone area to use RIP instead of OSPF. What are the key changes in the OSPF databases present in each stub area, with respect to the previous case?
 
-**Preparation for ASBR:** Add ASBR router AS100r1 to lab.conf (connected to backbone):
+
+## Advanced: Stub and External with BGP
+Use OSPF for backbone area.  
+Add ASBR router AS100r1 to lab.conf (connected to backbone):
 <img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
 Sample `frr.conf` for router AS100r1:
 ~~~
@@ -206,52 +209,40 @@ debug bgp updates
 ~~~
 Do not forget to enable the OSPF and BGP daemons on the appropriate routers.
 
-**Question 11:** Configure area 1.1.1.1 as `stub no-summary` on ABR (**E**) and internals (**I**, **J**).
+**Question 11:** Configure area 1.1.1.1 as `stub no-summary` on ABR and internal routers.
 
-On ABR **E** /etc/frr/frr.conf:
+On ABR, add (/etc/frr/frr.conf):
 ~~~
 router ospf
  ...
  area 1.1.1.1 stub no-summary
 ~~~
 
-On **I**, **J**:
+On internal routers at stub, add:
 ~~~
 router ospf
  ...
  area 1.1.1.1 stub
 ~~~
 
-Reload: `systemctl restart frr` on all. Verify no ASBR-summary in stub:
-- **I**: `show ip ospf database asbr-summary` → empty
-- **A** (backbone): sees summaries from **E**
-
-**Question 12:** Configure ASBR **O** to inject external route 50.0.0.0/16 as E2.
-On **O** /etc/frr/frr.conf (enable bgpd too: /etc/frr/daemons bgpd=yes):
+Are there ASBR-summary in stub area routers?:
+- Internal router: run `show ip ospf database asbr-summary`
+  <!-- it should be empty-->
+- ABR:?
+ 
+**Question 12:** Configure ASBR to inject external route 50.0.0.0/16 as E2.
+On **O** /etc/frr/frr.conf, add: 
 ~~~
+....
 !
 ip prefix-list EXTERNAL permit 50.0.0.0/16
 !
-router bgp 65000  # dummy AS
- bgp router-id 10.0.3.3
  network 50.0.0.0/16
- neighbor 140.0.0.2 remote-as 65000  # loop to self, or connect fabric
-!
-router ospf
- redistribute bgp metric-type 2 metric 100 subnets
- network 140.0.0.0/24 area 0.0.0.0
-!
+....
 ~~~
-Restart FRR on **O**. Verify:
+Restart the scenario. Run `show ip ospf database external`  and `show ip route` on a backbone and an internal router in the stub area. 
+What do you observe?
 
-**Backbone** (**A**):
-- `show ip ospf database external` → E2 LSA from **O** (metric 100 + OSPF cost to ASBR)
-- `show ip route` → `O E2 50.0.0.0/16 [110/100] via 140.0.0.1`
-
-**Stub** (**I**):
-- `show ip ospf database external` → empty (blocked by no-summary)
-- `show ip route` → only default `O 0.0.0.0/0 [110/20] via 100.0.0.1` (to ABR)
-
-Test: `ping 50.0.0.1` from **A** → succeeds via ASBR; from **I** → via default to backbone.
+Test: `ping 50.0.0.1`  and traceroute from bb1 and r2. What do you observe?
 
 
