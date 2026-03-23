@@ -57,7 +57,7 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 # Week 5: OSPF
 
 * [Theory on OSPF I](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_theory.pptx)
-* [Theory on OSPF II- Multi Areas](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_areas.pptx)
+* [Theory on OSPF II- Multi Areas](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_areas.pdf)
 * [LAB-OSPF I](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_I.md)
 * [LAB-OSPF II](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_II.md)
 
