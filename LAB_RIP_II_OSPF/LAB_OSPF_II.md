@@ -90,7 +90,7 @@ First, answer the following questions:
 
 **Question 7:** Identify ABRs and areas. Run `show ip ospf database summary` on internal routers. Note metrics from ABR.
 
-**Question 8:** On stub router **I**, check `show ip ospf route` for default route (0.0.0.0). Why is it present? What is the metric?
+**Question 8:** On stub router r2, check `show ip ospf route` for default route. Why is it present? What is the metric?
 
 **Question 9:** Shut down ABR link to the stub (eth1 on **E**). Observe and note convergence time, and LSDB changes.
 
