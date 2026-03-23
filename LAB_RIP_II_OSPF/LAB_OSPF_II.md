@@ -80,11 +80,11 @@ First, answer the following questions:
 
 **Question 3:** Run `show ip ospf neighbor` on backbone and stub routers. How many neighbors? Why no adjacency across areas?
 
-**Question 4:** Run `traceroute 200.0.0.2` from bb0 (backbone). What path via ABR? Run reverse from stub.
+**Question 4:** Run `traceroute 200.0.0.2` from bb0 (backbone). What path via ABR? Run reverse from r2.
 
-**Question 5:** On ABR, run `show ip ospf database router` for area 0.0.0.0 and 1.1.1.1. Confirm separate LSDBs.
+**Question 5:** On an ABR, run `show ip ospf database router` for area 0.0.0.0 and 1.1.1.1. How many link state databases do you observe?
 
-**Question 6:** Modify interface cost on backbone link (e.g., eth1 on **A** to 50). Re-run traceroute from stub. Observe inter-area reconvergence.
+**Question 6:** Modify interface cost on backbone link (e.g., eth1 to 50). Re-run traceroute from router r2 in the stub area. Explain how inter-area reconvergence takes place, and measure how long it takes.
 
 ## ABR and Path Types
 
