@@ -82,16 +82,23 @@ The package prefer to travers three different user instead of using the direct c
 N.B. the cost is calculate only by the out interface. 
 
 **Question 7:** Run `traceroute 10.0.3.2` from **bb1**. What do you observe?
+The route is completly different because probably if the router are in the same subnet, the package are delivered directly.
 
 **Question 8:** Modify OSPF costs. Re-run traceroute and observe SPF recalculation (new LSAs and path changes). How long does it take to reconverge after the changes? How can you explain that?
+The paths changes because i modify the cost of the interface eth0 of the router bb1, i change it from 45 to 15.
+The paths changes because now the path with less cost became the direct road to the router.
+It reconverge really fast indeed i change the cost and i immediatly do the command to see the cost of the interface from another router and it was already converged.
 
 ## DR Election
 **Question 9:** Identify DR per segment (e.g., 10.0.0.0/24 DR=10.0.3.1). Why are changes so infrequent?  
+Because the router that are elected to be dr never change except if the router stop to work or if we change the configuration of DR's interface priority to 0.
 
 **Question 10:** Shut down interface **eth1** on **bb1**. What changes do you observe in the network?  
 Specifically, analyze:
 - OSPF convergence time  
 - Link State Database (LSDB) updates  
+It converges really fast, in less than 0.5 second all the router in the network have already change the configuration.
+
 
 **Question 11:** Now add losses on one link interconnecting two routers.
 To do so, add to the .startup file of one of the routers:
@@ -99,4 +106,4 @@ To do so, add to the .startup file of one of the routers:
 tc qdisc add dev eth1 root netem loss 1%  # 1% random loss
 ```
 Increase the losses. When do you observe variations in the LSDB? How long does it take to reconverge?
-
+Around 75% of loss the lsbd change and if we ping 10.0.2.1 from bb1 it basically choose another path.
