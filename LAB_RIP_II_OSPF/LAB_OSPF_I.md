@@ -11,6 +11,10 @@ Review OSPF concepts: link-state algorithm, DR/BDR election.
 
 **Question 0:** What is an LSA? How are LSA IDs and Router IDs determined in OSPF? 
 
+LSA are link state algorithm, this means that are algorithm that have completly overview of the topology and the cost of the infrastructure, there exist a singolar.
+
+
+
 ## Setup
 
 Set up the lab configuration files and those of each router to implement the following configuration: 
@@ -57,16 +61,25 @@ network 10.0.0.0/16 area 0.0.0.0
 First, answer the following questions:
 
 **Question 1:** What does the command `show ip ospf neighbor` do?
+It shows all the device that are directly connected with router and also they have ospf activate.
 
 **Question 2:** What does the command  `show ip ospf database` do?  
+It show all the network and all the router of the area that are connected with ospf, to have more information you need to use network or router.
 
 **Question 3:** What does the command  `show ip ospf route` do? Why some of the routes may not be present in the global IP routing table? 
+The command show the routing table to all  the network, router and external. It doesn't show any router.
+
 
 **Question 4:** What does the command  `show ip ospf interface` do? 
+The command show ip ospf interface show all the interface of the router that call this program, it show to which network is connected, the cost and who is the designeted router of that network and also who is the backup of this network.
+
 
 **Question 5:** Run `show ip ospf neighbor` on all routers. How many neighbors per router? Explain.
+In all the router the neighbor are three except for the router bb0 that in that case are four. It's easy to underastand why, in all the router there are three router that are directly connected to it except for the router in the middle that has 4 connection.
 
 **Question 6:** Run `traceroute 10.0.2.1` from **bb1**. What do you observe?  
+The package prefer to travers three different user instead of using the direct connection that exist between bb1 and bb4, it happens this because the cost for the direct connection is higher than the cost of passing in three different router.
+N.B. the cost is calculate only by the out interface. 
 
 **Question 7:** Run `traceroute 10.0.3.2` from **bb1**. What do you observe?
 
