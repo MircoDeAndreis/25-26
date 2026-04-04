@@ -93,18 +93,18 @@ Answer to the following questions:
 root@r1:/# ip route
 1.1.1.0/24 dev eth0 proto kernel scope link src 1.1.1.11 
 2.2.2.0/24 dev eth1 proto kernel scope link src 2.2.2.11 
-3.3.3.0/24 nhid 6 via 2.2.2.12 dev eth1 proto bgp metric 20 
+3.3.3.0/24 nhid 6 via 2.2.2.20 dev eth1 proto bgp metric 20 
 ```
-Thus, router r1 is aware of the routes to reach the direct delivery networks and the routes to reach 3.3.3.0/24 through 2.2.2.12. 
+Thus, router r1 is aware of the routes to reach the direct delivery networks and the routes to reach 3.3.3.0/24 through 2.2.2.10. 
 
 ```shell
 r1-frr# show ip bgp 
-BGP table version is 2, local router ID is 2.2.2.11, vrf id 0
+BGP table version is 2, local router ID is 2.2.2.10, vrf id 0
 Default local pref 100, local AS 100
 ...
     Network          Next Hop            Metric LocPrf Weight Path
  *> 1.1.1.0/24       0.0.0.0                  0         32768 i
- *> 3.3.3.0/24       2.2.2.12                 0             0 200 i
+ *> 3.3.3.0/24       2.2.2.20                 0             0 200 i
 
 Displayed  2 routes and 2 total paths
 ```
@@ -116,11 +116,11 @@ Thus, the AS path identified by BGP is:
 
 ```shell
 root@r2:/# ip route
-1.1.1.0/24 nhid 6 via 2.2.2.11 dev eth0 proto bgp metric 20 
-2.2.2.0/24 dev eth0 proto kernel scope link src 2.2.2.12 
-3.3.3.0/24 dev eth1 proto kernel scope link src 3.3.3.12 
+1.1.1.0/24 nhid 6 via 2.2.2.10 dev eth0 proto bgp metric 20 
+2.2.2.0/24 dev eth0 proto kernel scope link src 2.2.2.20 
+3.3.3.0/24 dev eth1 proto kernel scope link src 3.3.3.20 
 ```
-Thus, router r2 is aware of the routes to reach the direct delivery networks and the routes to reach 1.1.1.0/24 through 2.2.2.11.
+Thus, router r2 is aware of the routes to reach the direct delivery networks and the routes to reach 1.1.1.0/24 through 2.2.2.20.
 
 
 
@@ -130,7 +130,7 @@ BGP table version is 2, local router ID is 3.3.3.12, vrf id 0
 Default local pref 100, local AS 200
 ...
     Network          Next Hop            Metric LocPrf Weight Path
- *> 1.1.1.0/24       2.2.2.11                 0             0 100 i
+ *> 1.1.1.0/24       2.2.2.10                 0             0 100 i
  *> 3.3.3.0/24       0.0.0.0                  0         32768 i
 
 Displayed  2 routes and 2 total paths
@@ -154,8 +154,8 @@ PING 3.3.3.1 (3.3.3.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 4.332/4.332/4.332/0.000 ms
 root@h1:/# traceroute 3.3.3.1
 traceroute to 3.3.3.1 (3.3.3.1), 30 hops max, 60 byte packets
- 1  1.1.1.11 (1.1.1.11)  1.018 ms  1.356 ms  1.555 ms
- 2  2.2.2.12 (2.2.2.12)  2.034 ms  2.929 ms  3.251 ms
+ 1  1.1.1.10 (1.1.1.10)  1.018 ms  1.356 ms  1.555 ms
+ 2  2.2.2.20 (2.2.2.20)  2.034 ms  2.929 ms  3.251 ms
  3  3.3.3.1 (3.3.3.1)  3.593 ms  4.492 ms  4.719 ms
  ```
 
@@ -173,8 +173,8 @@ PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 3.409/3.409/3.409/0.000 ms
 root@h2:/# traceroute 1.1.1.1
 traceroute to 1.1.1.1 (1.1.1.1), 30 hops max, 60 byte packets
- 1  3.3.3.12 (3.3.3.12)  1.060 ms  1.451 ms  1.451 ms
- 2  2.2.2.11 (2.2.2.11)  2.451 ms  4.864 ms  4.887 ms
+ 1  3.3.3.20 (3.3.3.20)  1.060 ms  1.451 ms  1.451 ms
+ 2  2.2.2.10 (2.2.2.10)  2.451 ms  4.864 ms  4.887 ms
  3  1.1.1.1 (1.1.1.1)  6.426 ms  6.721 ms  6.612 ms
 ```
 `ping` shows the connectivity between the two hosts and `traceroute` shows the router "entering" interfaces along the path. Such interfaces are complementary with repect to the interfaces identified in the previous case.
