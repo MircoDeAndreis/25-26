@@ -11,6 +11,8 @@ Review OSPF multi-area concepts: areas (backbone, stub), ABRs, ASBRs, path types
 
 **Question 0:** What is an ABR? How do routers in stub areas learn external routes?
 
+- An abr is a router of the backbone area that it is connected to another stub area. Via an asbr that comunicate to the network the external routes normally with protocol like BGP
+
 ## Setup
 
 Set up the lab configuration files and the router configuration files to implement the following multi-area topology.
