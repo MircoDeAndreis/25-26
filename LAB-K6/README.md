@@ -1,6 +1,6 @@
-# LAB-K5. BGP in a data center
+# LAB-K6. BGP in a data center
 
-## K5.1 Multilayer data center (configuration)
+## K6.1 Multilayer data center (configuration)
 
 As preliminary step, study the [slides on BGP peering](./data-center-bgp/051-kathara-lab_data-center-bgp.pdf)
 
@@ -30,7 +30,7 @@ leaf_1_0_1|202.1.1.0/24||
 
 
 
-## K5.2 Multilayer data center (running)
+## K6.2 Multilayer data center (running)
 
 Now run the lab.
 
@@ -38,7 +38,7 @@ Now run the lab.
 10. Show the routing tables with the command `show ip bgp` within a leaf router, a spine router and a tof router appearing in the above AS table. Compare the AS paths obtained with the command and the ones in the above AS table. Are the same? Do you get additional information with the command with respect to the above AS table?
 11. Send the traffic from the servers attached to leaf_1_0_1 to the servers attached to leaf_2_0_2. Find a way to show that ECMP exploits different paths. Describe the methodology and the results you obtain.
 
-## K5.3 Failures (optional)
+## K6.3 Failures (optional)
 
 12. While operating the datacenter, emulate failures with `ip link set ethX down` (where `ethx` is a proper interface name).
 13. What happens at BGP level? Is there any impact on the AS paths?
