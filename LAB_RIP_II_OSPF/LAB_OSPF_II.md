@@ -78,9 +78,16 @@ First, answer the following questions:
 
 **Question 1:** What does `show ip ospf database summary` show in multi-area OSPF?
 
+Show every link discovered by ospf, it also show the router that discovered this connection that in the case of external area connection it is always the area border router connected to that area.
+
 **Question 2:** What does `show ip ospf route` display for inter-area (IA) paths?
 
+It shows all the network in the autonomus system and all the area border router in the same area except for himself(if it is a area border router). It also specify if the network is inside an area of the router or outside and it need to pass to one or more different area. 
+
 **Question 3:** Run `show ip ospf neighbor` on backbone and stub routers. How many neighbors? Why no adjacency across areas?
+
+It depends on the router but in general, it is the same amount of neighbour that you can count watching the graph.
+ 
 
 **Question 4:** Run `traceroute 200.0.0.2` from bb0 (backbone). What path via ABR? Run reverse from r2.
 
