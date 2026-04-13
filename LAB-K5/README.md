@@ -1,57 +1,10 @@
-# LAB-K4. BGP
+# LAB-K5. BGP Multi-Homed 
 
+## 5.1 Peerring between two routers
 
-## 4.1 Summary of the steps to emulate a network with BGP 
+start a new lab in a new folder implementing the following topology:
 
-> [!TIP]
-> Under the folder `template/` it is possible to find a template for a single router `rX`. From the folder `LAB-K4`, you can copy the template by: `cp -r template/ LAB_FOLDER` where `LAB_FOLDER` is your lab folder. Read the detailed instructions below before doing it.
-
-
-The main steps to follow to perform a completely new lab on BGP is the following:
-
-1. Create a new folder for your lab and enter it. 
-1. Create a `lab.conf` file with the topology and the images of each node. The router image should be `frr` as in the following example: `rX[image]="kathara/frr"` 
-2. Create a `rX.startup` file for each router (say `rX`), assigning the IP address for each interface. Typically, you do not have to set the routing tables, since they will be computed by the routing protocol. Add also a line with `systemctl start frr` to start the routing daemon. See the [rX.config](template/rX.startup) template
-3. Create, for each router (say `rX`), a folder sequence as `rX/etc/frr/` and with all the following files:
-  * a file `daemons` with all the options required to start the routing daemaons. Use the [daemons](template/rX/etc/frr/daemons) template
-  * a file `vtysh.conf` to configure the shell used to interact with BGP daemon `bgpd`. In particular, you must change the hostname into `hostname rX-frr` with the proper `rX`.
-  * a file `frr.conf` to configure BGP. This is the most important file to modify to control the behavior of BGP. Use the [frr.conf](template/rX/etc/frr/frr.conf) template.
-4. Start the lab as usual using `kathara lstart`
-
-
-
-## 4.2 Useful commands in vtysh
-
-On the terminal of any BGP router, you can start `vtysh` to get detailed information from BGP deamon. The full documention is available on [https://docs.frrouting.org/en/latest/bgp.html](https://docs.frrouting.org/en/latest/bgp.html) under the section _Displaying BGP Information_. The main commands are the following:
-
-- `show ip route`: routing tables (important)
-- `show ip bgp`: AS paths (important)
-- `show ip bgp summary` 
-- `show bgp neighbors`: neighbors
-- `show ip bgp A.B.C.D` 
-- `show bgp all`
-- `show bgp all detail`
-
-## 4.3 Peerring between two routers
-
-
-As preliminary step, study the [slides on BGP peering](bgp-simple-peering/041-kathara-lab_bgp-simple-peering.pdf)
-and perfom the whole activity proposed in the slides. 
-
-Now start a new lab in a new folder implementing the following topology:
-
-![Net4](Figs/peering.drawio.png)
-
-with the following IP addressing plan.
-
-| Interface | IP address/netmask |
-|---|--- |
-| h1-eth0 |1.1.1.1/24 |
-| h2-eth0| 3.3.3.1/24 |
-| r1-eth0| 1.1.1.10/24|
-| r1-eth1| 2.2.2.10/24|
-| r2-eth0| 2.2.2.20/24|
-| r2-eth1| 3.3.3.20/24|
+![Net4](Figs/LABK5.png)
 
 Answer to the following questions:
 
