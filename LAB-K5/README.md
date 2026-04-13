@@ -1,174 +1,26 @@
-# LAB-K5. BGP Multi-Homed 
+# LAB-K5. BGP Multi-Homed Network
 
-## 5.1 Peerring between two routers
+## 5.1 Basic topology
 
-start a new lab in a new folder implementing the following topology:
+Start a new lab in a new folder implementing the following topology:
 
 ![Net4](Figs/LABK5.png)
 
-Answer to the following questions:
+## 5.1 Objective
 
-1. Configure the proper name of the two ASs. Which file/s you modified?
-2. Start the lab. Check for both routers the routing tables with both `route` and `ip route`. Are the obtained info equivalent?
-1. Looking at the `log` file of BGP, how often the KEEPALIVE message is sent among the routers?
-1. Instead of using `telnet`, use `vtysh` to access the command line interface of `bgpd`. What you learn from the output of `show ip bgp`? You can exit `vtysh` by typing `exit`.
-1. What you learn from the output of `show ip bgp  summary`?
-1. Try to ping `h2` from `h1`. Does it work? Why?
+Your main objective is to setup routing protocol(s) so that: 
 
-## 4.4 BGP Announcements with 2 ASs
+1. Customer network with AS 65003 can send/receive traffic from the Internet (represented for simplicity by AS 65004) using ISP2 as primary connection, and ISP1 as secondary (backup) connection.
+2. Specifically, the LAB is completed successfully if router R1 can ping 200.0.1.1, with both requests and replies flowing through ISP2 (to be verified with traceroute)
 
-As preliminary step, study the [slides on BGP announcement](bgp-announcement/042-kathara-lab_bgp-announcement.pdf)
-and perfom the whole activity proposed in the slides.
+## 5.2 Hints
+As explained in slides "BGP-stubs", use local-preference to manage outbound traffic. Use the "multi-exit-discriminator" metric to manage in-bound traffic   
 
-Now start a new lab in a new folder implementing the following topology:
+## 5.3 (optional) Experiment with link failures 
+After you setup the routing protocols, try to shut down the primary link to ISP2 and see if the secondary link restores connectivity:
 
-![Net4](Figs/peering.drawio.png)
+1. First try by shutting down the neighbor inside the BGP configuration terminal. How long does it take to restore connectivity?
+2. Then shut down one of the ethernet interfaces of the primary link using "ip link set eth<n> down". How long does it take to restore connectivity in this case? why?
 
-with the IP addressing plan of section 4.3.
-
-Answer to the following questions:
-1. Report the output `show ip route` within `vtysh` and the output of `route` for each router. Is the information the same? If not, what are the differences?
-1. Try to ping `h2` from `h1`. Does it work? Why?
-1. Consider the log file of frr in each router. Report the line of the log with announcements sent from the router and the announcements received at the router.
-1. Report the AS paths in each router shown with `show ip bgp`. Fill also the following table:
-
-| Network prefix | AS path |
-|---|---|
-| ... | ...|
-
-## 4.4 (Partial solution)
-
-### r1 Routing tables and AS paths
-
-
-
-```shell
-root@r1:/# ip route
-1.1.1.0/24 dev eth0 proto kernel scope link src 1.1.1.11 
-2.2.2.0/24 dev eth1 proto kernel scope link src 2.2.2.11 
-3.3.3.0/24 nhid 6 via 2.2.2.20 dev eth1 proto bgp metric 20 
-```
-Thus, router r1 is aware of the routes to reach the direct delivery networks and the routes to reach 3.3.3.0/24 through 2.2.2.10. 
-
-```shell
-r1-frr# show ip bgp 
-BGP table version is 2, local router ID is 2.2.2.10, vrf id 0
-Default local pref 100, local AS 100
-...
-    Network          Next Hop            Metric LocPrf Weight Path
- *> 1.1.1.0/24       0.0.0.0                  0         32768 i
- *> 3.3.3.0/24       2.2.2.20                 0             0 200 i
-
-Displayed  2 routes and 2 total paths
-```
-
-Thus, the AS path identified by BGP is:
-3.3.3.0/24 AS200.
-
-### r2 Routing tables and AS paths
-
-```shell
-root@r2:/# ip route
-1.1.1.0/24 nhid 6 via 2.2.2.10 dev eth0 proto bgp metric 20 
-2.2.2.0/24 dev eth0 proto kernel scope link src 2.2.2.20 
-3.3.3.0/24 dev eth1 proto kernel scope link src 3.3.3.20 
-```
-Thus, router r2 is aware of the routes to reach the direct delivery networks and the routes to reach 1.1.1.0/24 through 2.2.2.20.
-
-
-
-```shell
-r2-frr# show ip bgp
-BGP table version is 2, local router ID is 3.3.3.12, vrf id 0
-Default local pref 100, local AS 200
-...
-    Network          Next Hop            Metric LocPrf Weight Path
- *> 1.1.1.0/24       2.2.2.10                 0             0 100 i
- *> 3.3.3.0/24       0.0.0.0                  0         32768 i
-
-Displayed  2 routes and 2 total paths
-```
-
-Thus, the AS path identified by BGP is:
-1.1.1.0/24 AS100.
-
-
-### Connectivity h1->h2
-
-
-
-```shell
-root@h1:/# ping 3.3.3.1 -c 1
-PING 3.3.3.1 (3.3.3.1) 56(84) bytes of data.
-64 bytes from 3.3.3.1: icmp_seq=1 ttl=62 time=4.33 ms
-
---- 3.3.3.1 ping statistics ---
-1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 4.332/4.332/4.332/0.000 ms
-root@h1:/# traceroute 3.3.3.1
-traceroute to 3.3.3.1 (3.3.3.1), 30 hops max, 60 byte packets
- 1  1.1.1.10 (1.1.1.10)  1.018 ms  1.356 ms  1.555 ms
- 2  2.2.2.20 (2.2.2.20)  2.034 ms  2.929 ms  3.251 ms
- 3  3.3.3.1 (3.3.3.1)  3.593 ms  4.492 ms  4.719 ms
- ```
-
-`ping` shows the connectivity between the two hosts and `traceroute` shows the router "entering" interfaces along the path.
-
-### Connectivity h2->h1
-
-```shell
-root@h2:/# ping 1.1.1.1 -c 1
-PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
-64 bytes from 1.1.1.1: icmp_seq=1 ttl=62 time=3.41 ms
-
---- 1.1.1.1 ping statistics ---
-1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 3.409/3.409/3.409/0.000 ms
-root@h2:/# traceroute 1.1.1.1
-traceroute to 1.1.1.1 (1.1.1.1), 30 hops max, 60 byte packets
- 1  3.3.3.20 (3.3.3.20)  1.060 ms  1.451 ms  1.451 ms
- 2  2.2.2.10 (2.2.2.10)  2.451 ms  4.864 ms  4.887 ms
- 3  1.1.1.1 (1.1.1.1)  6.426 ms  6.721 ms  6.612 ms
-```
-`ping` shows the connectivity between the two hosts and `traceroute` shows the router "entering" interfaces along the path. Such interfaces are complementary with repect to the interfaces identified in the previous case.
-
-## 4.5 BGP Announcements with a linear topology
-
-Now start a new lab in a new folder implementing the following topology:
-
-![Net4](Figs/peering3.drawio.png)
-
-with the IP addressing plan of section 4.3,  plus the following interfaces:
-| Interface | IP address/netmask |
-|---|--- |
-| r2-eth2| 4.4.4.20/24|
-| r3-eth0| 4.4.4.30/24|
-| r3-eth1| 5.5.5.30/24|
-| h3-eth0 | 5.5.5.3/24|
-
-1. Report the routes in each router shown with `show ip route`. Are they correct? Why?
-1. Try to ping `h2` and `h3` from `h1`. Does it work? Why?
-1. Report the AS paths in each router shown with `show ip bgp`. Fill also the following table:
-
-| Network prefix | AS path |
-|---|---|
-| ... | ...|
-
-
-## 4.6 (Optional) BGP Announcements for a loop topology
-
-Now start a new lab in a new folder implementing the following topology:
-
-![Net4](Figs/peering4.drawio.png)
-
-1. Configure all the IP addresses.
-
-2. Check if BGP is able to compute properly the routing tables.
-
-1. Report the routing tables with `show ip route`. Is there any routing loop?
-
-1. Report the AS paths with `show ip bgp`. Are all the paths considered.
-
-1. Comment about the capability of BGP of managing routing loops.
 
 
