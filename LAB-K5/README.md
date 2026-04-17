@@ -1,50 +1,26 @@
-# LAB-K5. BGP in a data center
+# LAB-K5. BGP Multi-Homed Network
 
-## K5.1 Multilayer data center (configuration)
+## 5.1 Basic topology
 
-As preliminary step, study the [slides on BGP peering](./data-center-bgp/051-kathara-lab_data-center-bgp.pdf)
+Start a new lab in a new folder implementing the following topology:
 
-The topology figure is reported below:
-![topo](./Figs/lab5.5-topo.png)
+![Net4](Figs/LABK5.png)
 
-Before running the lab:
+## 5.1 Objective
 
-1. Check the files in the [lab folder](./data-center-bgp/kathara-lab_data-center-bgp/). As a suggestion, a simple way to access the file from the root folder of the lab is to use the command `cat`. E.g., `cat lab.conf`, `cat tof*startup`, `cat tof_1_2_*/etc/frr/bgpd.conf`. Use `[TAB]` for autocompletion!
-To evaluate the differences between file configurations, exploit `diff`. E.g., `diff spine_1_1_1.startup leaf_1_0_1.startup`,`diff tof_1_2_1/etc/frr/bgpd.conf tof_1_2_2/etc/frr/bgpd.conf`. To scan across multiple files and identify some specific lines, use `grep`. E.g., `grep peer-group */etc/frr/bgpd.conf` or `grep peer-group */etc/frr/bgpd.conf|grep -v interface`.
-1. Find the local id (e.g., eth0, eth1) of each interface in the network topology and report in the topology figure. How did you discover such information?
-1. Check the startup file of each device. What are the interfaces for which the IP addresses have been configured?
-1. Just based on the startup file, how the configuration of a router differs from the one of an host? 
-1. Report in the topology figure the router id used by BGP for each device.
-1. What are the differences in the BGP configuration of the two ToF routers?
-1. What are the three different ECMP policies that can be selected? How do they differ?
-1. Show in the topology figure the name of the peer group associated to each interface.
-1. Considering just the topology, compute what would be the AS paths for a the network prefix `202.1.1.0/24` for the routers shown in the AS table.
+Your main objective is to setup routing protocol(s) so that: 
 
- Router | Network prefix | AS path
-----|---|---|
-leaf_2_0_1|202.1.1.0/24| |
-spine_2_1_1|202.1.1.0/24| |
-tof_1_2_1|202.1.1.0/24| |
-spine_1_1_1|202.1.1.0/24||
-leaf_1_0_1|202.1.1.0/24||
+1. Customer network with AS 65003 can send/receive traffic from the Internet (represented for simplicity by AS 65004) using ISP2 as primary connection, and ISP1 as secondary (backup) connection.
+2. Specifically, the LAB is completed successfully if router R1 can ping 200.0.1.1, with both requests and replies flowing through ISP2 (to be verified with traceroute).
 
+## 5.2 Hints
+As explained in slides "BGP-stubs", use local-preference to manage outbound traffic. Use the "multi-exit-discriminator" metric to manage in-bound traffic   
 
+## 5.3 (optional) Experiment with link failures 
+After you setup the routing protocol(s), try to shut down the primary link to ISP2 and see if the secondary link restores connectivity:
 
-## K5.2 Multilayer data center (running)
-
-Now run the lab.
-
-9. With `ping ... -c 1`, check the connectivity between two pairs of servers and show the results.
-10. Show the routing tables with the command `show ip bgp` within a leaf router, a spine router and a tof router appearing in the above AS table. Compare the AS paths obtained with the command and the ones in the above AS table. Are the same? Do you get additional information with the command with respect to the above AS table?
-11. Send the traffic from the servers attached to leaf_1_0_1 to the servers attached to leaf_2_0_2. Find a way to show that ECMP exploits different paths. Describe the methodology and the results you obtain.
-
-## K5.3 Failures (optional)
-
-12. While operating the datacenter, emulate failures with `ip link set ethX down` (where `ethx` is a proper interface name).
-13. What happens at BGP level? Is there any impact on the AS paths?
-1. What happens on the traffic? Is there any impact on the connectivity between two servers?
-
-
+1. First try by shutting down the neighbor ISP2 inside the BGP configuration terminal on R3 (see slides). How long does it take to restore connectivity?
+2. Then shut down one of the ethernet interfaces of the primary link using "ip link set eth<n> down". How long does it take to restore connectivity in this case? why?
 
 
 
