@@ -259,7 +259,7 @@ Are there ASBR-summary in stub area routers?:
 - Internal router: run `show ip ospf database asbr-summary`
   <!-- it should be empty-->
 - ABR:?
- 
+- 
 **Question 12:** Configure ASBR to inject external route 50.0.0.0/16 as E2.
 On **O** /etc/frr/frr.conf, add: 
 ~~~
