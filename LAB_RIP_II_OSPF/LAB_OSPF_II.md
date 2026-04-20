@@ -267,7 +267,7 @@ On **O** /etc/frr/frr.conf, add:
 !
 ip prefix-list EXTERNAL permit 50.0.0.0/16
 !
- network 50.0.0.0/16
+ 2network 50.0.0.0/16
 ....
 ~~~
 Restart the scenario. Run `show ip ospf database external`  and `show ip route` on a backbone and an internal router in the stub area. 
