@@ -273,6 +273,10 @@ ip prefix-list EXTERNAL permit 50.0.0.0/16
 Restart the scenario. Run `show ip ospf database external`  and `show ip route` on a backbone and an internal router in the stub area. 
 What do you observe?
 
-Test: `ping 50.0.0.1`  and traceroute from bb1 and r2. What do you observe?
+- Only the router that have activated bgp has the possibility to comunicate with the external link 
+
+Test: `ping 50.0.0.1`  and traceroute from bb1 and r2. What do you observe? 
+
+Both of them doesn't work probably because in both case there isn't activated BGP.
 
 
