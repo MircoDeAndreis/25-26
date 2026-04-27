@@ -16,7 +16,7 @@ Your main objective is to setup routing protocol(s) so that:
 2. Specifically, the LAB is completed successfully if router R1 can ping 200.0.1.1, with both requests and replies flowing through ISP2 (to be verified with traceroute).
 
 ## 5.2 Hints
-Use local-preference to influence outbound traffic (exiting AS6004). Use AS-PATH prepending (check Internet/AI for its meaning) to influence in-bound traffic (directed to AS 65004)   
+Use local-preference to influence outbound traffic (exiting AS6003). Use AS-PATH prepending (check Internet/AI for its meaning) to influence in-bound traffic (directed to AS 65003)   
 
 ## 5.3 Experiment with link failures 
 After you setup the routing protocol(s), try to shut down the primary link to ISP2 and see if the secondary link restores connectivity:
