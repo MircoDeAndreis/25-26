@@ -192,11 +192,11 @@ python3 src/plot_congestion.py lab/shared/compare_long_rtt/cubic_reno --dir -a
 > ...
 
 ## Extra
-
+<!--
 ### Running the scenarios with BBR/BBRv2
 
 You can run all the above scenario who takes in argument a congestion control algorithm with bbr or bbrv2. These algorithms were not fully verified and might have strange behaviours, but it might be interesting to experiment with a non loss-based congestion control algorithm.
-
+-->
 ### Connecting to the other devices
 
 During the lab, you may want to have access to the clients, or the router to run some custom tests. To do this, you just have to run the command:
