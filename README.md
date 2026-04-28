@@ -65,9 +65,7 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 
 
 # Transport Layer: TCP, UDP, and QUIC
-* [Theory, first part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_theory.pptx)
-
-
+* [Theory, first part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti_Part_1.pptx)
 
 
 <!-- cmvn -->
