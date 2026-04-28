@@ -61,4 +61,13 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 * [LAB-OSPF I](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_I.md)
 * [LAB-OSPF II](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_II.md)
 
+# BGP
+
+
+# Transport Layer: TCP, UDP, and QUIC
+* [Theory, first part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_theory.pptx)
+
+
+
+
 <!-- cmvn -->
