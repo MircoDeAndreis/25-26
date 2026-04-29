@@ -26,15 +26,27 @@ This lab contains nine different scenarios that will enable you to progressively
 
 ### [ACK clocking](../scenarios/no_cca_low_rate)
 
-In this first scenario, we start with a simple example: what happens when QUIC sender has no congestion control scheme, but uses a constant sending window ? With this much information, it might be difficult to know what will results from this. Let us add an hypothesis: the client sends at a rate of ~4Mbps, as it has a sending window of 10000 bytes, and a round-trip time of 20ms. Try to think about what will happen, and when you're ready, run the `scenarios/no_cca_low_rate` file, and inspect the results using 
+In this first scenario, we start with a simple example: what happens when QUIC sender has no congestion control scheme, but uses a constant sending window ? With this much information, it might be difficult to know what will result from this. Let us add the following hypothesis: 
+
+The client sends at a rate of ~4Mbps, as it has a sending window of 10000 bytes, and a round-trip time of 20ms. 
+
+Try to think about what will happen. When you're ready, run
+
+`./scenarios/no_cca_low_rate` 
+
+file. Then go to the folder `lab/shared/no_cca_low_rate`, copy the name of the log file, and inspect the results using 
+
 ```
-python3 src/qlog_parser.py lab/shared/no_cca_low_rate/LOG_ID.qlog -d
+python3 src/qlog_parser.py lab/shared/no_cca_low_rate/(name of the log file).qlog -d
+```
+
+```
 python3 src/plot_congestion.py lab/shared/no_cca_low_rate/ --dir -f delivery_rate
 ```
-
+<!--
 > [!WARNING]  
 > Don't forget to replace LOG_ID by the id of the file in `lab/shared/no_cca_low_rate`
-
+-->
 #### Questions: What do you observe ? Was there any problem during the transmission ?
 
 > You can use this box to answer
