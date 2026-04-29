@@ -3,6 +3,7 @@
 This lab will allow students to get hands-on experience with congestion control schemes using the QUIC protocol.
 
 ## Installation requirements
+- Install Python, pandas, numpy.
 - Some pip modules, those can be installed by using `pip install -r requirements.txt`
 
 ## Description of the lab
