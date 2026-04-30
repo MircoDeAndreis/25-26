@@ -56,11 +56,25 @@ with the following IP addressing plan.
 Answer to the following questions:
 
 1. Configure the proper name of the two ASs. Which file/s you modified?
+
+  - I have modified the file frr.conf
+
 2. Start the lab. Check for both routers the routing tables with both `route` and `ip route`. Are the obtained info equivalent?
+
+  - no because it also shows the single peer that are connected for example r1 show also the direct connection with r2 and h1 meanwhile r2 shows the direct connections with r1 and h2.
+
 1. Looking at the `log` file of BGP, how often the KEEPALIVE message is sent among the routers?
+
+  - 1 for minutes.
 1. Instead of using `telnet`, use `vtysh` to access the command line interface of `bgpd`. What you learn from the output of `show ip bgp`? You can exit `vtysh` by typing `exit`.
+
+  - That on vtysh you can see also the metrics and weights.
 1. What you learn from the output of `show ip bgp  summary`?
+
+  - the numbers of neighbours and which autonumus system is the router. 
 1. Try to ping `h2` from `h1`. Does it work? Why?
+
+If you add ip route add default via "interface of the route" dev eth0, it can reach the other computer while if you don't add this command the computer is not able to send the packet.
 
 ## 4.4 BGP Announcements with 2 ASs
 
@@ -75,13 +89,54 @@ with the IP addressing plan of section 4.3.
 
 Answer to the following questions:
 1. Report the output `show ip route` within `vtysh` and the output of `route` for each router. Is the information the same? If not, what are the differences?
-1. Try to ping `h2` from `h1`. Does it work? Why?
+
+  - show ip route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       > - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv4 unicast VRF default:
+B>* 1.1.1.0/24 [20/0] via 2.2.2.10, eth0, weight 1, 00:03:35
+C>* 2.2.2.0/24 is directly connected, eth0, weight 1, 00:03:37
+L>* 2.2.2.20/32 is directly connected, eth0, weight 1, 00:03:37
+C>* 3.3.3.0/24 is directly connected, eth1, weight 1, 00:03:37
+L>* 3.3.3.20/32 is directly connected, eth1, weight 1, 00:03:37
+
+  -  ip route
+1.1.1.0/24 nhid 6 via 2.2.2.10 dev eth0 proto bgp metric 20 
+2.2.2.0/24 dev eth0 proto kernel scope link src 2.2.2.20 
+3.3.3.0/24 dev eth1 proto kernel scope link src 3.3.3.20 
+
+  - In the show ip route there is more information for example how a specific route was discovered by the router
+1. Try to ping `h2` from `h1`. Does it work? Why? 
+
+  - Yes it works because I have add the announcement.
 1. Consider the log file of frr in each router. Report the line of the log with announcements sent from the router and the announcements received at the router.
+  - Announcement sent by the router r1 for the network 1.1.1.0/24:
+    - 2026/04/29 12:49:09 BGP: [TN0HX-6G1RR] u1:s1 send UPDATE w/ attr: nexthop 0.0.0.0, metric 0, path , NHC TLV code 3 length 4 value 0xaaaaf5dad250
+2026/04/29 12:49:09 BGP: [HVRWP-5R9NQ] u1:s1 send UPDATE 1.1.1.0/24 IPv4 unicast
+2026/04/29 12:49:09 BGP: [WEV7K-2GAQ5] u1:s1 send UPDATE len 55 (max message len: 65535) numpfx 1
+2026/04/29 12:49:09 BGP: [MBFVT-8GSC6] u1:s1 2.2.2.20 send UPDATE w/ nexthop 2.2.2.10
+
+-  Announcement received by the router r2 for the network 1.1.1.0/24:
+    - 2026/04/29 12:49:09 BGP: [XXWBM-V772F] 2.2.2.10(r1) rcvd UPDATE w/ attr: nexthop 2.2.2.10, origin i, metric 0, path 100
+2026/04/29 12:49:09 BGP: [YCKEM-GB33T] 2.2.2.10(r1) rcvd 1.1.1.0/24 IPv4 unicast
 1. Report the AS paths in each router shown with `show ip bgp`. Fill also the following table:
+- R1:
 
 | Network prefix | AS path |
 |---|---|
-| ... | ...|
+| 1.1.1.0/24   |    0.0.0.0  |
+| 3.3.3.0/24   |    2.2.2.20 |
+- R2:
+
+| Network prefix | AS path |
+|---|---|
+|  1.1.1.0/24   |   2.2.2.10  |
+|  3.3.3.0/24   |   0.0.0.0   |
 
 ## 4.4 (Partial solution)
 
