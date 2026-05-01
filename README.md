@@ -61,4 +61,17 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 * [LAB-OSPF I](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_I.md)
 * [LAB-OSPF II](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_II.md)
 
+# BGP
+
+
+# Transport Layer: TCP, UDP, and QUIC
+<!--(2027) This class is flipped. The following material is to be studied at home BEFORE coming to the lecture. It is a review of notions already studied in previous CN courses.
+In class, we will answer questions and solve some exercises.-->
+* [Theory, first part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti_Part_1.pptx)
+* [Theory, second part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti%20part%202.pptx)
+
+Some further references, for deepening some concepts:
+* [On security implications of QUIC](https://documents.swisscom.com/product/filestore/lib/cbb66c05-4db7-432e-a95b-d6d9523a1c0f/ly2_quic_whitepaper_en_v3.pdf?idxme=pex-search)
+* [On congestion control and fairness](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Rate%20adaptation%2C%20Congestion%20Control%20and%20Fairness_%20A%20Tutorial.pdf) 
+
 <!-- cmvn -->
