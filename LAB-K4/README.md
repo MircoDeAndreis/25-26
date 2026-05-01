@@ -294,10 +294,19 @@ Now start a new lab in a new folder implementing the following topology:
 
 2. Check if BGP is able to compute properly the routing tables.
 
+-  Yes it is able to compute properly the routing tables
+
 1. Report the routing tables with `show ip route`. Is there any routing loop?
+
+No, I have checked with the routing tables and with traceroute i didn't find any loop
 
 1. Report the AS paths with `show ip bgp`. Are all the paths considered.
 
+No because some path are filtered:
+
+  - 2026/05/01 08:56:07 BGP: [RZMGQ-A03CG] 2.2.2.10(r1) rcvd UPDATE about 3.3.3.0/24 IPv4 unicast -- DENIED due to: as-path contains our own AS;
+  2026/05/01 08:56:07 BGP: [RZMGQ-A03CG] 2.2.2.10(r1) rcvd UPDATE about 4.4.4.0/24 IPv4 unicast -- DENIED due to: as-path contains our own AS;
+
 1. Comment about the capability of BGP of managing routing loops.
 
-
+It is really good because it filter all the path that contains itself avoiding the loop.
