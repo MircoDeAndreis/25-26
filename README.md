@@ -68,5 +68,8 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 * [Theory, first part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti_Part_1.pptx)
 * [Theory, second part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti%20part%202.pptx)
 
+Some further references, for deepening some concepts:
+* [On security implications of QUIC](https://documents.swisscom.com/product/filestore/lib/cbb66c05-4db7-432e-a95b-d6d9523a1c0f/ly2_quic_whitepaper_en_v3.pdf?idxme=pex-search)
+* [On Congestion control and fairness] () 
 
 <!-- cmvn -->
