@@ -249,13 +249,40 @@ with the IP addressing plan of section 4.3,  plus the following interfaces:
 | h3-eth0 | 5.5.5.3/24|
 
 1. Report the routes in each router shown with `show ip route`. Are they correct? Why?
+
+  - Yes It's important the order of the command because sometimes it can  
 1. Try to ping `h2` and `h3` from `h1`. Does it work? Why?
+
+  - Yes 
 1. Report the AS paths in each router shown with `show ip bgp`. Fill also the following table:
+  - R1:
 
 | Network prefix | AS path |
 |---|---|
-| ... | ...|
+|1.1.1.0/24    |   0.0.0.0|
+|2.2.2.0/24    |   0.0.0.0|
+|3.3.3.0/24   |    2.2.2.20|
+|4.4.4.0/24    |   2.2.2.20|
+|5.5.5.0/24   |    2.2.2.20|
+  - R2:
 
+| Network prefix | AS path |
+|---|---|
+| 1.1.1.0/24    |   2.2.2.10|
+|2.2.2.0/24   |    0.0.0.0|
+|3.3.3.0/24   |    0.0.0.0|
+|4.4.4.0/24    |   0.0.0.0|
+|5.5.5.0/24    |   4.4.4.30|
+
+  - R3:
+
+| Network prefix | AS path |
+|---|---|
+| 1.1.1.0/24   |   4.4.4.20 |
+|2.2.2.0/24   |    4.4.4.20|
+|3.3.3.0/24    |   4.4.4.20|
+|4.4.4.0/24   |    0.0.0.0|
+|5.5.5.0/24    |   0.0.0.0|
 
 ## 4.6 (Optional) BGP Announcements for a loop topology
 
