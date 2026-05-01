@@ -65,6 +65,8 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 
 
 # Transport Layer: TCP, UDP, and QUIC
+<!--(2027) This class is flipped. The following material is to be studied at home BEFORE coming to the lecture. It is a review of notions already studied in previous CN courses.
+In class, we will answer questions and solve some exercises.-->
 * [Theory, first part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti_Part_1.pptx)
 * [Theory, second part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti%20part%202.pptx)
 
