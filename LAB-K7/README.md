@@ -27,8 +27,8 @@ Open any browser on the host machine on localhost:3000, sniff eth1, launch links
 the recursive operation of DNS. 
 
 ## 5.4 (Optional) Experiments with machine failures:
-1. Failure of ws3: shut down the corresponding container. Try fetching `www.uniroma3.it` from the client. What do you expect to happen? Why?
-2. Failure of load balancer lb1: shut down the corresponding container. Try fetching `www.uniroma3.it` from the client. What do you expect to happen? Why?     
+1. Emulate failure of ws3: shut down the corresponding container. Try fetching `www.uniroma3.it` several times from the client. What do you expect to happen? Why?
+3. Emulate failure of load balancer lb1: shut down the corresponding container and remove the corresponding DNS record. Try fetching several times `www.uniroma3.it` from the client. What do you expect to happen? Why?     
 
 
 
