@@ -21,7 +21,7 @@ Type "links www.uniroma3.it" on the client to experiment load balancing. Try rel
 with CTRL-R. What happens? Why? 
 
 ## 5.3 Sniff DNS traffic 
-Use "rndc flush" the clean the cache on 
+Use "rndc flush" the clean the cache on ldns.
 Connect a wireshark device to collision domain A.
 Open any browser on the host machine on localhost:3000, sniff eth1, launch links on the client and identify the recursive
 operation of DNS. 
