@@ -18,13 +18,13 @@ Answer the following questions:
 
 ## 5.2 Test load balancing
 Type "links www.uniroma3.it" on the client to experiment load balancing. Try reloading the page sebveral times 
-with CTRL-R. What happens? Why? 
+with CTRL-R. What happens? Why? Try closing and launching links several times.   
 
 ## 5.3 Sniff DNS traffic 
 Use "rndc flush" the clean the cache on ldns.
-Connect a wireshark device to collision domain A.
-Open any browser on the host machine on localhost:3000, sniff eth1, launch links on the client and identify the recursive
-operation of DNS. 
+Connect a wireshark device to collision domain D.
+Open any browser on the host machine on localhost:3000, sniff eth1, launch links on the client and identify on the packet trace 
+the recursive operation of DNS. 
 
 ## 5.4 (Optional) Experiments with machine failures:
 1. Failure of ws3: shut down the corresponding container. Try fetching "www.uniroma3.it" from the client. What do you expect to happen? Why?
