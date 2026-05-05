@@ -13,21 +13,22 @@ with the main configuration files.
 
 Answer the following questions:  
 
-1. Which file contain the basic configuration allowing the first level of load balancing (by DNS). Why does it work?
-2. Which file contain the basic configuration allowing the second level of load balancing (layer-4 load balancing). How does it work?
+1. Which file contains the basic configuration allowing the first level of load balancing (by DNS). Why does it work?
+2. Which file contains the basic configuration allowing the second level of load balancing (layer-4 load balancing). How does it work?
 
 ## 5.2 Test load balancing
-Use local-preference to influence outbound traffic (exiting AS6003). Use AS-PATH prepending (check Internet/AI for its meaning) to influence in-bound traffic (directed to AS 65003)   
+Type "links www.uniroma3.it" on the client to experiment load balancing. Try reloading the page sebveral times 
+with CTRL-R. What happens? Why? 
 
 ## 5.3 Sniff DNS traffic 
-After you setup the routing protocol(s), try to shut down the primary link to ISP2 and see if the secondary link restores connectivity:
-
-1. First, try that by shutting down the neighbor ISP2 inside the BGP configuration terminal on R3 (see slides). How long does it take to restore connectivity?
-2. Then shut down one of the ethernet interfaces of the primary link using "ip link set eth<n> down". How long does it take to restore connectivity in this case? why?
+Use "rndc flush" the clean the cache on 
+Connect a wireshark device to collision domain A.
+Open any browser on the host machine on localhost:3000, sniff eth1, launch links on the client and identify the recursive
+operation of DNS. 
 
 ## 5.4 (Optional) Experiments with machine failures:
-1. Failure of ws3: shut down the corresponding container. Try fetching www.uniroma3.it from the client. What do you expect to happen? Why?
-2. Failure of load balancer lb1: shut down the corresponding container. Try fetching www.uniroma3.it from the client. What do you expect to happen? Why?     
+1. Failure of ws3: shut down the corresponding container. Try fetching "www.uniroma3.it" from the client. What do you expect to happen? Why?
+2. Failure of load balancer lb1: shut down the corresponding container. Try fetching "www.uniroma3.it" from the client. What do you expect to happen? Why?     
 
 
 
