@@ -1,19 +1,20 @@
 # Running your own tests with QUIC congestion control
 
 ## Table of Contents
+## Table of Contents
 
 1. [Prequel](#prequel)
 2. [Running the scenarios](#running-the-scenarios)
 3. [Description of the nine scenarios](#description-of-the-nine-scenarios)
     * [ACK clocking](#ack-clocking)
-    * [Is ACK clocking sufficient ?](#is-ack-clocking-sufficient-)
+    * [Is ACK clocking sufficient?](#is-ack-clocking-sufficient-)
     * [Starting simple: a single client with one congestion control algorithm](#starting-simple-a-single-client-with-one-congestion-control-algorithm)
-    * [Stepping up : sharing bandwidth between two clients](#stepping-up--sharing-bandwidth-between-two-clients)
-    * [Sharing bandwidth : even for TCP flows](#sharing-bandwidth--even-for-tcp-flows)
+    * [Stepping up: sharing bandwidth between two clients](#stepping-up--sharing-bandwidth-between-two-clients)
+    * [Sharing bandwidth: even for TCP flows](#sharing-bandwidth--even-for-tcp-flows)
     * [When someone use an unfair congestion control algorithm...](#when-someone-use-an-unfair-congestion-control-algorithm)
     * [...but the router saves the day](#but-the-router-saves-the-day)
     * [Effect of RTT on transmission rate](#effect-of-rtt-on-transmission-rate)
-    * [Wait, are you lagging ?](#wait-are-you-lagging-)
+    * [Wait, are you lagging?](#wait-are-you-lagging-)
 4. [Extra I: Asymmetric Links and Bufferbloat](#extra-i-asymmetric-links-and-bufferbloat)
     * [1. Goal](#1-goal)
     * [2. Network Topology](#2-network-topology)
@@ -32,6 +33,8 @@
     * [Playing with the network configuration to emulate losses/limitations](#playing-with-the-network-configuration-to-emulate-losseslimitations)
 6. [Troubleshooting](#troubleshooting)
     * [SSH instabilities](#ssh-instabilities)
+
+
 ## Prequel
 
 > [!IMPORTANT]  
