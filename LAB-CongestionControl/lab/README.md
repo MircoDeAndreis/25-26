@@ -209,19 +209,19 @@ In this exercise, you will transform a standard high-speed link into a "Real-Wor
 
 ---
 
-## 1. Goal
+#### 1. Goal
 * Configure a router with asymmetric bandwidth (High Download / Low Upload).
 * Observe the impact of a large **FIFO** (First-In-First-Out) queue on Round Trip Time (RTT).
 * Implement **FQ-CoDel** (Fair Queuing Controlled Delay) to mitigate the issue.
 
-## 2. Network Topology
+#### 2. Network Topology
 We use the standard  `client <-> router <-> server` setup:
 * **Client (h1):** `10.0.1.1` (connected to `r1` eth0)
 * **Router (r1):** `10.0.1.254` (eth0), `10.0.2.254` (eth1)
 * **Server (h2):** `10.0.2.1` (connected to `r1` eth1)
 
 ---
-## Part A: Setting the Bottleneck
+#### Part A: Setting the Bottleneck
 We will simulate a home connection where the upload speed is restricted, and the router has a massive, "dumb" buffer.
 
 1.  **On the Router (`r1`):** Restrict the upload path (traffic going from Client to Server) on the interface facing the server.
@@ -241,7 +241,7 @@ We will simulate a home connection where the upload speed is restricted, and the
     ```
     *Note: Initially, while the link is idle, RTT should be low (e.g., < 2ms).*
 
-## Part B: Inducing the Bloat
+#### Part B: Inducing the Bloat
 1.  **On the Server (`h2`):** Start the iperf3 server.
     ```bash
     iperf3 -s
@@ -256,7 +256,7 @@ We will simulate a home connection where the upload speed is restricted, and the
     * **The Result:** You will see the RTT jump from ~1ms to **hundreds of milliseconds** (or even seconds). 
     * **Explanation:** The buffer on `r1` is filled with iperf data packets. Your "ping" packets (ICMP) are stuck waiting at the end of this 500-packet-long queue.
 
-## Part C: The Cure (AQM)
+#### Part C: The Cure (AQM)
 Now, we replace the "dumb" FIFO queue with a modern **Active Queue Management (AQM)** algorithm called FQ-CoDel. This algorithm prioritizes "thin" flows (like pings) and manages queue lengths to keep latency low.
 
 1.  **On the Router (`r1`):** Switch the queuing discipline to FQ-CoDel.
@@ -277,12 +277,12 @@ Now, we replace the "dumb" FIFO queue with a modern **Active Queue Management (A
 
 ---
 
-## 4. Analysis & Discussion
+#### 4. Analysis & Discussion
 * **The Buffer Limit:** In Part B, why did the RTT increase so much? Consider that at 1 Mbps, a 500-packet buffer (approx 750 KB) takes several seconds to empty.
 * **Flow Fairness:** How does FQ-CoDel distinguish between the iperf3 traffic and the ping traffic? (Hint: It uses hashing to separate flows into different sub-queues).
 * **Throughput vs. Latency:** Did switching to FQ-CoDel significantly reduce your iperf3 speed? Usually, you get the same bandwidth but much better responsiveness.
 
-## 5. Helpful Verification Commands
+#### 5. Helpful Verification Commands
 * **View Real-time Stats on Router:**
     ```bash
     tc -s qdisc show dev eth1
