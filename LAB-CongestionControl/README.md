@@ -11,7 +11,7 @@ To this end, we will work on a quite simple configuration:
 
 The clients send data to the server (upload of a file), but the link between the 2 routers is a bottleneck that has a limited bandwidth of only ~8Mbps. The two clients will need to share this link appropriately in order to be able to transmit at the same time.
 
-During this lab, you observe:
+During this lab, you will observe:
 - the problems that occur when there is no congestion control
 - how congestion control reacts to packet losses
 - how two clients can  fairly share a single bottleneck link
@@ -20,11 +20,11 @@ During this lab, you observe:
 
 This lab uses scenarios that will run transactions in specific conditions to show you how the QUIC protocol and its congestion control algorithm react to these.
 
-## Installation requirements
+### Installation requirements
 - Install Python, pandas, numpy.
 - Some pip modules, those can be installed by using `pip install -r requirements.txt`
 
-## Qlogs
+### Qlogs
 
 In order to record the events in the different scenarios, the clients and servers are configured to log information using the QLOG format. The exact format is described in the [qlog IETF draft](https://datatracker.ietf.org/doc/draft-ietf-quic-qlog-main-schema/).
 
@@ -38,12 +38,12 @@ During this lab, you can also disable the generation of qlogs if you want to che
 
 To run the scenarios, simply open a terminal in this folder. Type the following command:
 
-### For Linux/Mac
+#### For Linux/Mac
 ```bash
 ./start
 cd lab && sudo kathara connect main
 ```
-### For Windows
+#### For Windows
 ```bash
 .\start.bat
 cd lab
@@ -63,17 +63,17 @@ To shut down the lab, use the command
 exit # Alternatively, use CTRL+D
 ```
 to quit the main hub, and type one of the following commands:
-### For Linux/Max
+#### For Linux/Max
 ```bash
 ./clean 
 ```
-### For Windows
+#### For Windows
 ```bash
 .\clean.bat
 ```
 to remove all the files created by the lab.
 
-### Lab on Red-hat based distributions
+#### Lab on Red-hat based distributions
 
 On these kinds of distributions, the lab requires the firewall to be disabled (as it won't work at all otherwise). The start script will automatically ask you if you want to disable it, and will proceed with this disabling. After having done the lab, the cleaning script will ask you whether you want to enable your firewall once again. If you want to handle these tasks manually, you can use :
 ```bash
@@ -83,7 +83,7 @@ sudo systemctl start firewalld
 sudo systemctl stop firewalld   
 ```
 
-## Sniffing packets using Wireshark
+### Sniffing packets using Wireshark
 
 During these labs, you can use Wireshark to sniff packets and see in real-time how QUIC works.
 
