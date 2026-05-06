@@ -1,0 +1,46 @@
+networks:
+  kind:
+  rest:
+
+volumes:
+  docker-certs-ca:
+  docker-certs-client:
+  docker-socket:
+
+services:
+  daemon:
+    extends:
+      file: kaas.yml
+      service: daemon
+
+  traefik:
+    extends:
+      file: kaas.yml
+      service: traefik
+
+  web-tty:
+    extends:
+      file: kaas.yml
+      service: web-tty
+
+  kathara-rest:
+    extends:
+      file: kaas.yml
+      service: kathara-rest
+    build:
+      dockerfile: kathara-rest.dockerfile
+      context: ./kathara-rest
+    volumes:
+      - ./kathara-rest/res:/kathara-rest/res
+      - ./kathara-rest/src:/kathara-rest/src
+
+  kathara-ui:
+    extends:
+      file: kaas.yml
+      service: kathara-ui
+    build:
+      dockerfile: kathara-ui-vue3.dockerfile
+      context: ./kathara-ui-vue3
+    # volumes only work if npm install was executed locally in the folder kathara-ui
+    volumes:
+      - ./kathara-ui-vue3:/vue3

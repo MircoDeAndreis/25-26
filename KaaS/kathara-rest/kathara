@@ -1,0 +1,4 @@
+#!/bin/sh
+PyV=$(python3 -V | awk '{print $2}' | cut -d. -f1,2)
+
+python3 /usr/lib/python${PyV}/site-packages/kathara.py $@
