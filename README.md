@@ -39,7 +39,7 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 * [Intro to the course](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Complementi_di_Reti.pdf)
 * [Intro to Docker](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Intro_to_Docker.pdf)
 * [Intro to Kathara'](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/001-kathara-introduction.pdf)
-* [KaaS (to be tested)]()
+* [KaaS (to be tested)](https://github.com/compl-reti-unito/25-26/blob/main/KaaS/README.md)
 
 * [LAB-K1](LAB-K1)
 * [LAB-K2](LAB-K2)
