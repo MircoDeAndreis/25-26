@@ -203,7 +203,7 @@ python3 src/plot_congestion.py lab/shared/compare_long_rtt/cubic_reno --dir -a
 >
 > ...
 
-### Extra I: Asymmetric Links and Bufferbloat 
+## Extra I: Asymmetric Links and Bufferbloat 
 
 In this exercise, you will transform a standard high-speed link into a "Real-World" bottleneck. You will observe how massive router buffers (typical in consumer hardware) can actually degrade performance by causing extreme latency (RTT) spikes, a phenomenon known as **Bufferbloat**.
 
