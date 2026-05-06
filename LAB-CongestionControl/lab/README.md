@@ -1,7 +1,6 @@
 # Running your own tests with QUIC congestion control
 
 ## Table of Contents
-## Table of Contents
 
 1. [Prequel](#prequel)
 2. [Running the scenarios](#running-the-scenarios)
