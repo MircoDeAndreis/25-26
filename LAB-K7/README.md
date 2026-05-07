@@ -30,7 +30,7 @@ Open any browser on the host machine on localhost:3000, sniff eth1, launch links
 the recursive operation of DNS. Isolate in the proper packet the bytes containing the IP address 22.2.2.2 
 
 ## 5.4 (Optional) Experiments with machine failures:
-1. Emulate failure of ws3: shut down the corresponding container. Try fetching `www.uniroma3.it` several times from the client,
+1. Emulate failure of ws3: (using `ip link set eth0 down`). Try fetching `www.uniroma3.it` several times from the client,
 possibly using the automated script suggested in 5.2. What do you expect to happen? Why?
 3. Emulate failure of load balancer lb1: shut down the corresponding container and remove the corresponding DNS record. Try fetching several times `www.uniroma3.it` from the client. What do you expect to happen? Why?     
 
