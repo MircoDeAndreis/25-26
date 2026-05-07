@@ -18,7 +18,10 @@ Answer the following questions:
 
 ## 5.2 Test load balancing
 Type `links www.uniroma3.it` on the client to experiment load balancing. Try reloading the page several times 
-with CTRL-R. What happens? Why? Try closing and launching links several times.   
+with CTRL-R. What happens? Why? Try closing and launching links several times. 
+Ask an AI to write a python script to compute the distribution of server used. Put the script in the 
+shared folder to access it on the client. Run the script to verify an almost uniform distribution (25% for each server)
+with large enough number of servers.
 
 ## 5.3 Sniff DNS traffic 
 Use `rndc flush` the clean the cache on ldns.
