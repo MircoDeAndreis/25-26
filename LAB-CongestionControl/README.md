@@ -1,30 +1,30 @@
 # QUIC and Congestion Control Lab
 
-This lab will allow students to get hands-on experience with congestion control schemes using the QUIC protocol.
-
-## Installation requirements
-- Install Python, pandas, numpy.
-- Some pip modules, those can be installed by using `pip install -r requirements.txt`
-
 ## Description of the lab
 
 In this lab, you will learn how congestion control works and the reason why these algorithms are part of today's Internet.
-To do so, we will work on a quite simple configuration:
+This lab will allow students to get hands-on experience with congestion control schemes, using TCP, UDP, and the QUIC protocol.
+
+To this end, we will work on a quite simple configuration:
 
 ![](images/topology_student.drawio.png)
 
 The clients send data to the server (upload of a file), but the link between the 2 routers is a bottleneck that has a limited bandwidth of only ~8Mbps. The two clients will need to share this link appropriately in order to be able to transmit at the same time.
 
-During this lab, you observe:
+During this lab, you will observe:
 - the problems that occur when there is no congestion control
 - how congestion control reacts to packet losses
 - how two clients can  fairly share a single bottleneck link
 - how the round-trip time influences some congestion control schemes 
 - how routers can also play a role in a fair share of a link (fair queuing)
 
-This lab uses scenarios that will run transactions in specific conditions and to show you how the QUIC protocol and its congestion control algorithm react to these.
+This lab uses scenarios that will run transactions in specific conditions to show you how the QUIC protocol and its congestion control algorithm react to these.
 
-## Qlogs
+### Installation requirements
+- Install Python, pandas, numpy.
+- Some pip modules, those can be installed by using `pip install -r requirements.txt`
+
+### Qlogs
 
 In order to record the events in the different scenarios, the clients and servers are configured to log information using the QLOG format. The exact format is described in the [qlog IETF draft](https://datatracker.ietf.org/doc/draft-ietf-quic-qlog-main-schema/).
 
@@ -38,40 +38,44 @@ During this lab, you can also disable the generation of qlogs if you want to che
 
 To run the scenarios, simply open a terminal in this folder. Type the following command:
 
-### For Linux/Mac
+#### For Linux/Mac
 ```bash
 ./start
 cd lab && sudo kathara connect main
 ```
-### For Windows
+#### For Windows
 ```bash
 .\start.bat
 cd lab
 kathara connect main
 ```
 
-This will run the lab, and should after some time open a terminal as `root@main`. This terminal will be the main hub where you'll be able to run the different scenarios, as well as connect to the other devices if you want to play by yourself with the congestion control.
+This will run the lab and should, after some time, open a terminal as `root@main`. This terminal will be the main hub where you'll be able to run the different scenarios, as well as connect to the other devices if you want to play by yourself with the congestion control.
 
-You can now follow the instructions contained in the [lab README](lab/README.md) to learn how to run the different scenarios, and observe the evolution of congestion control variables over time. You may want to use wireshark or tcpdump to analyze captured packets during this lab. For this, simply follow the instructions in the [wireshark section](#sniffing-packets-using-wireshark) below.
+Follow the instructions contained in the [lab README](lab/README.md). 
+
+Run the different scenarios, observe the evolution of congestion control variables over time, and answer the questions. 
+
+You may want to use Wireshark or tcpdump to analyze captured packets during this lab. For this, simply follow the instructions in the [wireshark section](#sniffing-packets-using-wireshark) below.
 
 To shut down the lab, use the command 
 ```bash
 exit # Alternatively, use CTRL+D
 ```
 to quit the main hub, and type one of the following commands:
-### For Linux/Max
+#### For Linux/Max
 ```bash
 ./clean 
 ```
-### For Windows
+#### For Windows
 ```bash
 .\clean.bat
 ```
 to remove all the files created by the lab.
 
-### Lab on Red-hat based distributions
+#### Lab on Red-hat based distributions
 
-On these kind of distributions, the lab requires the firewall to be disabled (as it won't work at all otherwise). The start script will automatically ask you if you want to disable it, and will proceed with this disabling. After having done the lab, the cleaning script will ask you whether you want to enable your firewall once again. If you want to handle these tasks manually, you can use :
+On these kinds of distributions, the lab requires the firewall to be disabled (as it won't work at all otherwise). The start script will automatically ask you if you want to disable it, and will proceed with this disabling. After having done the lab, the cleaning script will ask you whether you want to enable your firewall once again. If you want to handle these tasks manually, you can use :
 ```bash
 # restart the firewall
 sudo systemctl start firewalld  
@@ -79,7 +83,7 @@ sudo systemctl start firewalld
 sudo systemctl stop firewalld   
 ```
 
-## Sniffing packets using Wireshark
+### Sniffing packets using Wireshark
 
 During these labs, you can use Wireshark to sniff packets and see in real-time how QUIC works.
 

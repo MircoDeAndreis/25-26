@@ -34,27 +34,28 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 * Infiniband, Ethernet for HPC
 * Network architectures for AI (LLMs)
 
-# Week 1
+# Intro, Docker and Kathara basics
 
 * [Intro to the course](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Complementi_di_Reti.pdf)
 * [Intro to Docker](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Intro_to_Docker.pdf)
 * [Intro to Kathara'](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/001-kathara-introduction.pdf)
+* [KaaS (to be tested)](https://github.com/compl-reti-unito/25-26/blob/main/KaaS/README.md)
 
 * [LAB-K1](LAB-K1)
 * [LAB-K2](LAB-K2)
 
-# Week 2-3
+# Basic connectivity, Static routing
 * [two computers](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/two-computers.pdf)
 * [static routing](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/static-routing.pdf)
 * [LAB-K3](LAB-K3)
 
-# Week 4: Routing, FRR, and RIP
+# Routing, FRR, and RIP
 * [Intro to FRR](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/frr.pdf)
 * [RIP](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
 * [LAB-FRR](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/frrouting-introduction)
 * [LAB-RIP](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/rip)
 
-# Week 5: OSPF
+# OSPF
 
 * [Theory on OSPF I](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_theory.pptx)
 * [Theory on OSPF II- Multi Areas](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_areas.pdf)
@@ -69,6 +70,7 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 In class, we will answer questions and solve some exercises.-->
 * [Theory, first part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti_Part_1.pptx)
 * [Theory, second part](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Transport%20layer%20Compreti%20part%202.pptx)
+* [Lab](https://github.com/compl-reti-unito/25-26/blob/main/LAB-CongestionControl/README.md)
 
 Some further references, for deepening some concepts:
 * [On security implications of QUIC](https://documents.swisscom.com/product/filestore/lib/cbb66c05-4db7-432e-a95b-d6d9523a1c0f/ly2_quic_whitepaper_en_v3.pdf?idxme=pex-search)

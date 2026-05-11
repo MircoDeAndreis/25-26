@@ -1,12 +1,46 @@
 # Running your own tests with QUIC congestion control
 
+## Table of Contents
+
+1. [Prequel](#prequel)
+2. [Running the scenarios](#running-the-scenarios)
+3. [Description of the nine scenarios](#description-of-the-nine-scenarios)
+    * [ACK clocking](#ack-clocking)
+    * [Is ACK clocking sufficient?](#is-ack-clocking-sufficient-)
+    * [Starting simple: a single client with one congestion control algorithm](#starting-simple-a-single-client-with-one-congestion-control-algorithm)
+    * [Stepping up: sharing bandwidth between two clients](#stepping-up--sharing-bandwidth-between-two-clients)
+    * [Sharing bandwidth: even for TCP flows](#sharing-bandwidth--even-for-tcp-flows)
+    * [When someone use an unfair congestion control algorithm...](#when-someone-use-an-unfair-congestion-control-algorithm)
+    * [...but the router saves the day](#but-the-router-saves-the-day)
+    * [Effect of RTT on transmission rate](#effect-of-rtt-on-transmission-rate)
+    * [Wait, are you lagging?](#wait-are-you-lagging-)
+4. [Extra I: Asymmetric Links and Bufferbloat](#extra-i-asymmetric-links-and-bufferbloat)
+    * [1. Goal](#1-goal)
+    * [2. Network Topology](#2-network-topology)
+    * [Part A: Setting the Bottleneck](#part-a-setting-the-bottleneck)
+    * [Part B: Inducing the Bloat](#part-b-inducing-the-bloat)
+    * [Part C: The Cure (AQM)](#part-c-the-cure-aqm)
+    * [4. Analysis & Discussion](#4-analysis--discussion)
+    * [5. Helpful Verification Commands](#5-helpful-verification-commands)
+5. [Extra II](#extra-ii)
+    * [Running the scenarios with BBR/BBRv2](#running-the-scenarios-with-bbrbbrv2)
+    * [Connecting to the other devices](#connecting-to-the-other-devices)
+    * [QUIC server](#quic-server)
+    * [QUIC client](#quic-client)
+    * [Scripts](#scripts)
+    * [Modifying the constants for the congestion controllers](#modifying-the-constants-for-the-congestion-controllers)
+    * [Playing with the network configuration to emulate losses/limitations](#playing-with-the-network-configuration-to-emulate-losseslimitations)
+6. [Troubleshooting](#troubleshooting)
+    * [SSH instabilities](#ssh-instabilities)
+
+
 ## Prequel
 
 > [!IMPORTANT]  
-> First, make sure to have started the lab by following the instruction of the [root README](../README.md). After that, you can proceed to read the instructions given in this file.
+> First, make sure to have started the lab by following the instructions of the [root README](../README.md). After that, you can proceed to read the instructions given in this file.
 
 > [!NOTE]  
-> Whenever we ask you to inspect the results of a scenario with a plotting script, these commands **HAVE TO** be run on your local computer, not inside the main device that is created by the lab !
+> Whenever we ask you to inspect the results of a scenario with a plotting script, these commands **HAVE TO** be run on your local computer, not inside the main device that is created by the lab!
 
 ## Running the scenarios
 
@@ -16,7 +50,7 @@ To run a scenario, execute the following command :
 ```
 with NAME_SCEN the name of the scenario.
 
-Yes, it is as simple as that !
+Yes, it is as simple as that!
 
 When a scenario stops, you will be able to plot the results of this scenario (not in the main device, but in another terminal) and see how everything went.
 
@@ -26,7 +60,7 @@ This lab contains nine different scenarios that will enable you to progressively
 
 ### [ACK clocking](../scenarios/no_cca_low_rate)
 
-In this first scenario, we start with a simple example: what happens when QUIC sender has no congestion control scheme, but uses a constant sending window ? With this much information, it might be difficult to know what will result from this. Let us add the following hypothesis: 
+In this first scenario, we start with a simple example: what happens when the QUIC sender has no congestion control scheme, but uses a constant sending window? With this much information, it might be difficult to know what will result from this. Let us add the following hypothesis: 
 
 The client sends at a rate of ~4Mbps, as it has a sending window of 10000 bytes, and a round-trip time of 20ms. 
 
@@ -47,7 +81,7 @@ python3 src/plot_congestion.py lab/shared/no_cca_low_rate/ --dir -f delivery_rat
 > [!WARNING]  
 > Don't forget to replace LOG_ID by the id of the file in `lab/shared/no_cca_low_rate`
 -->
-#### Questions: What do you observe ? Was there any problem during the transmission ?
+#### Questions: What do you observe? Was there any problem during the transmission?
 
 > You can use this box to answer
 >
@@ -55,22 +89,22 @@ python3 src/plot_congestion.py lab/shared/no_cca_low_rate/ --dir -f delivery_rat
 
 ### [Is ACK clocking sufficient ?](../scenarios/no_cca_high_rate)
 
-Now that we have seen what happens with a fixed sending window transmitting at a smaller rate than the bottleneck bandwidth, let us see what happens when fixed sending window results in a  rate that is greater than the bottleneck bandwidth. To do so, we will configure QUIC to transmit at a rate of 64Mbps (sending window of 400000 bytes, and a round-trip time of 50ms at minimum), as we are quite impatient and we want the upload to be done faster (damn you human, why can't you wait a bit !). You can think about what might happen, and then run the `scenarios/no_cca_high_rate` file, and inspect the results using 
+Now that we have seen what happens with a fixed sending window transmitting at a lower rate than the bottleneck bandwidth, let us see what happens when a fixed sending window results in a  rate that is greater than the bottleneck bandwidth. To do so, we will configure QUIC to transmit at a rate of 64Mbps (sending window of 400000 bytes, and a round-trip time of 50ms at minimum), as we are quite impatient and we want the upload to be done faster (damn you, human, why can't you wait a bit !). You can think about what might happen, and then run the `scenarios/no_cca_high_rate` file, and inspect the results using 
 ```
 python3 src/qlog_parser.py lab/shared/no_cca_high_rate/LOG_ID.qlog -d
 ```
 
 We will also run a transmission using the CUBIC congestion control algorithm to be able to compare with it.
 
-#### Question: How did ACK clocking perform compared to CUBIC ?
+#### Question: How did ACK clocking perform compared to CUBIC?
 
 > You can use this box to answer
 >
 > ...
 
-### [Starting simple : a single client with one congestion control algorithm](../scenarios/cca_single)
+### [Starting simple: a single client with one congestion control algorithm](../scenarios/cca_single)
 
-After this quick introduction about why congestion control is important, let's see how these algorithms behave in (quite) real situations. To do so, you can run the script `scenarios/cca_single`, first with argument `reno` to observe a classical Reno congestion control, and then with argument `cubic` to see the CUBIC version.
+After this quick introduction about why congestion control is important, let's see how these algorithms behave in (quite) real situations. To do so, you can run the script `scenarios/cca_single`, first with the argument `reno` to observe a classical Reno congestion control, and then with the argument `cubic` to see the CUBIC version.
 
 After that, you can check the evolution of their respective congestion windows (cwnd) by running :
 
@@ -79,14 +113,14 @@ python3 src/plot_congestion.py lab/shared/cca_single/reno --dir
 python3 src/plot_congestion.py lab/shared/cca_single/cubic --dir
 ```
 
-**Important note** : when using cubic for this particular scenario, we disabled the Reno friendly behavior of cubic, to better show the cubic growth of the cwnd. However, in real situations, it should be enabled to better share the bandwidth. You can experiment as a bonus exercice how cubic behave when we enable this feature by running `scenarios/cca_single cubic true` and inspect the result using 
+**Important note**: when using cubic for this particular scenario, we disabled the Reno-friendly behavior of cubic to better show the cubic growth of the cwnd. However, in real situations, it should be enabled to better share the bandwidth. You can experiment as a bonus exercise how cubic behaves when we enable this feature by running `scenarios/cca_single cubic true` and inspect the result using 
 
 ```
 python3 src/plot_congestion.py lab/shared/cca_single/cubic_reno_friendly_enabled --dir
 ```
 
-#### Question: What are the main differences that you see ?
-#### Bonus questions : Can you guess why cubic use a Reno friendly region ? What could be the potential advantages ?
+#### Question: What are the main differences that you see?
+#### Bonus questions: Can you guess why Cubic uses a Reno-friendly region? What could be the potential advantages?
 
 > You can use this box to answer
 >
@@ -94,7 +128,7 @@ python3 src/plot_congestion.py lab/shared/cca_single/cubic_reno_friendly_enabled
 
 ### [Stepping up : sharing bandwidth between two clients](../scenarios/cca_share)
 
-In the previous scenario, we have seen how each congestion control algorithm acts when it can use fully a link on its own. Let us now see what happens when 2 clients send data at the same time and have to share the ressources. You can try different combinations (Reno-CUBIC, Reno-Reno and CUBIC-CUBIC) transactions and see what happens.
+In the previous scenario, we have seen how each congestion control algorithm acts when it can use fully a link on its own. Let us now see what happens when 2 clients send data at the same time and have to share the resources. You can try different combinations (Reno-CUBIC, Reno-Reno and CUBIC-CUBIC) transactions and see what happens.
 
 Run the script `scenarios/cca_share` by passing as arguments the 2 congestion controls used for the transmission.
 
@@ -109,7 +143,7 @@ python3 src/plot_congestion.py lab/shared/cca_share/cca1_cca2 --dir -f delivery_
 python3 src/share_bandwidth.py lab/shared/cca_share/cca1_cca2
 ```
 
-#### Questions: Is the bandwidth shared fairly ? And how does the cwnd of the 2 cca evolve ?
+#### Questions: Is the bandwidth shared fairly? And how does the cwnd of the 2 cca evolve?
 
 > You can use this box to answer
 >
@@ -117,18 +151,18 @@ python3 src/share_bandwidth.py lab/shared/cca_share/cca1_cca2
 
 ### [Sharing bandwidth : even for TCP flows](../scenarios/compare_iperf)
 
-We've seen how 2 QUIC clients share bandwidth. But in the real world, QUIC isn't the only transport protocol in use. Another one frequently used is TCP and you should already know a lot about. One question that you might ask yourself is <q>Do two separate protocols allow the sharing of the same bandwidth ?</q>, and in this test, we will answer this question. The client2 runs a TCP connection (using the iperf tool) and sends data to server2, while client1 uses a QUIC connection and sends data to server1.
+We've seen how 2 QUIC clients share bandwidth. But in the real world, QUIC isn't the only transport protocol in use. Another one frequently used is TCP, and you should already know a lot about. One question that you might ask yourself is <q>Do two separate protocols allow the sharing of the same bandwidth ?</q>, and in this test, we will answer this question. The client2 runs a TCP connection (using the iperf tool) and sends data to server2, while client1 uses a QUIC connection and sends data to server1.
 
-Run the script `scenarios/compare_iperf` by passing as argument the control congestion you want to use, feel free to select the one you prefer between CUBIC and Reno.
+Run the script `scenarios/compare_iperf` by passing as an argument the control congestion you want to use; feel free to select the one you prefer between CUBIC and Reno.
 
-After that, run the plotter by replacing CCA by the one you selected:
+After that, run the plotter by replacing CCA with the one you selected:
 ```
 python3 src/plot_congestion.py lab/shared/compare_iperf/CCA_iperf --dir
 ```
 
-Check also the results of iperf, which prints how much time it took to run, as well as the bandwidth mesured during this time. 
+Check also the results of iperf, which prints how much time it took to run, as well as the bandwidth measured during this time. 
 
-#### Questions: What do you observe ? Do TCP and QUIC share fairly the bandwidth, or does one flow take all the ressources for itself ?
+#### Questions: What do you observe? Do TCP and QUIC share the bandwidth fairly, or does one flow take all the resources for itself?
 
 > You can use this box to answer
 >
@@ -145,7 +179,7 @@ Run after that the plotter with the following command and see what happened (rep
 python3 src/plot_congestion.py lab/shared/without_fair_queue/CCA --dir -f delivery_rate -l
 ```
 
-#### Questions: What do you see ? Is that a fair share of the bandwidth ?
+#### Questions: What do you see? Is that a fair share of the bandwidth?
 
 > You can use this box to answer
 >
@@ -153,7 +187,7 @@ python3 src/plot_congestion.py lab/shared/without_fair_queue/CCA --dir -f delive
 
 ### [...but the router saves the day](../scenarios/fair_queue)
 
-The endhosts are not the only ones who can influence the rate of transmission in a network. Routers also have a huge influence on the rate a flow may transmit. Perhaps, dropping the last packet arrived is not a perfect solution, so let's try using a fair queue. To do so, we'll add on router1 a fair queue, using the [`fq_codel`](https://man7.org/linux/man-pages/man8/tc-fq_codel.8.html) algorithm. This tool allow use to use a deficit round robin on different queues, and the incoming flows may be put in different queues based on the hash of their ip-port couple. Let us observe now how the bandwidth is shared between the 2 hosts.
+The endhosts are not the only ones who can influence the rate of transmission in a network. Routers also have a huge influence on the rate at which a flow may transmit. Perhaps dropping the last packet that arrived is not a perfect solution, so let's try using a fair queue. To do so, we'll add on router1 a fair queue, using the [`fq_codel`](https://man7.org/linux/man-pages/man8/tc-fq_codel.8.html) algorithm. This tool allow use to use a deficit round robin on different queues, and the incoming flows may be put in different queues based on the hash of their IP-port couple. Let us observe now how the bandwidth is shared between the 2 hosts.
 
 Run the script `scenarios/fair_queue` with cubic or reno.
 
@@ -162,7 +196,7 @@ Run after that the plotter, while replacing CCA by the congestion control you us
 python3 src/plot_congestion.py lab/shared/fair_queue/CCA --dir -f delivery_rate -l
 ```
 
-#### Questions: What do you see ? Is this still as unfair ?
+#### Questions: What do you see? Is this still as unfair?
 
 > You can use this box to answer
 >
@@ -170,9 +204,9 @@ python3 src/plot_congestion.py lab/shared/fair_queue/CCA --dir -f delivery_rate 
 
 ### [Effect of RTT on transmission rate](../scenarios/rtt_influence)
 
-Up until now, we have seen how the different congestion controllers behave while having a constant RTT. A question we could ask ourselves is <q>Does the RTT have any influence on the transmit rate ?</q>. Let us answer this question in this scenario !
+Until now, we have seen how the different congestion controllers behave while having a constant RTT. A question we could ask ourselves is <q>Does the RTT have any influence on the transmit rate ?</q>. Let us answer this question in this scenario!
 
-Run the `scenarios/rtt_influence` script, one time with Reno, and the other time with CUBIC.
+Run the `scenarios/rtt_influence` script, one time with Reno and the other time with CUBIC.
 
 Plot the results using 
 ```
@@ -180,7 +214,7 @@ python3 src/plot_congestion.py lab/shared/rtt_influence/reno --dir -a
 python3 src/plot_congestion.py lab/shared/rtt_influence/cubic --dir -a
 ```
 
-#### Questions: What do you see ? Does Reno with a longer RTT takes more time to send the same amount of data ? How does it (or not) affect the growth of cwnd ? Same questions for CUBIC.
+#### Questions: What do you see? Does Reno with a longer RTT takes more time to send the same amount of data? How does it (or not) affect the growth of cwnd? Same questions for CUBIC.
 
 > You can use this box to answer
 >
@@ -188,7 +222,7 @@ python3 src/plot_congestion.py lab/shared/rtt_influence/cubic --dir -a
 
 ### [Wait, are you lagging ?](../scenarios/compare_long_rtt)
 
-As the last scenario of this lab, we will analyze how different congestion control algorithms behave facing large round-trip-times.
+As the last scenario of this lab, we will analyze how different congestion control algorithms behave facing large round-trip times.
 
 Run the `scenarios/compare_long_rtt cubic reno` script, and compare Reno with CUBIC.
 
@@ -197,25 +231,113 @@ You can then plot the results using
 python3 src/plot_congestion.py lab/shared/compare_long_rtt/cubic_reno --dir -a
 ```
 
-#### Questions: Which one does perform the best under long rtt situation ? Why is this the case ?
+#### Questions: Which one performs best under a long RTT situation? Why is this the case?
 
 > You can use this box to answer
 >
 > ...
 
-## Extra
-<!--
+## Extra I: Asymmetric Links and Bufferbloat 
+
+In this exercise, you will transform a standard high-speed link into a "Real-World" bottleneck. You will observe how massive router buffers (typical in consumer hardware) can actually degrade performance by causing extreme latency (RTT) spikes, a phenomenon known as **Bufferbloat**.
+
+---
+
+#### 1. Goal
+* Configure a router with asymmetric bandwidth (High Download / Low Upload).
+* Observe the impact of a large **FIFO** (First-In-First-Out) queue on Round Trip Time (RTT).
+* Implement **FQ-CoDel** (Fair Queuing Controlled Delay) to mitigate the issue.
+
+#### 2. Network Topology
+We use the standard  `client <-> router <-> server` setup:
+* **Client (h1):** `10.0.1.1` (connected to `r1` eth0)
+* **Router (r1):** `10.0.1.254` (eth0), `10.0.2.254` (eth1)
+* **Server (h2):** `10.0.2.1` (connected to `r1` eth1)
+
+---
+#### Part A: Setting the Bottleneck
+We will simulate a home connection where the upload speed is restricted, and the router has a massive, "dumb" buffer.
+
+1.  **On the Router (`r1`):** Restrict the upload path (traffic going from Client to Server) on the interface facing the server.
+    ```bash
+    # Clear any existing rules
+    tc qdisc del dev eth1 root 2> /dev/null
+
+    # Add a 1Mbps rate limit with a huge 500-packet buffer (Bufferbloat)
+    # We use Token Bucket Filter (tbf) to limit bandwidth
+    tc qdisc add dev eth1 root handle 1: pfifo_fast limit 500
+    tc qdisc add dev eth1 parent 1: tbf rate 1mbit burst 32kbit latency 400ms
+    ```
+
+2.  **On the Client (`h1`):** Start a persistent ping to monitor latency.
+    ```bash
+    ping 10.0.2.1
+    ```
+    *Note: Initially, while the link is idle, RTT should be low (e.g., < 2ms).*
+
+#### Part B: Inducing the Bloat
+1.  **On the Server (`h2`):** Start the iperf3 server.
+    ```bash
+    iperf3 -s
+    ```
+
+2.  **On the Client (`h1`):** Start a 20-second TCP upload while keeping the ping running in another terminal.
+    ```bash
+    iperf3 -c 10.0.2.1 -t 20
+    ```
+
+3.  **Observation:** Watch the `ping` output on `h1` while the iperf3 transfer is active.
+    * **The Result:** You will see the RTT jump from ~1ms to **hundreds of milliseconds** (or even seconds). 
+    * **Explanation:** The buffer on `r1` is filled with iperf data packets. Your "ping" packets (ICMP) are stuck waiting at the end of this 500-packet-long queue.
+
+#### Part C: The Cure (AQM)
+Now, we replace the "dumb" FIFO queue with a modern **Active Queue Management (AQM)** algorithm called FQ-CoDel. This algorithm prioritizes "thin" flows (like pings) and manages queue lengths to keep latency low.
+
+1.  **On the Router (`r1`):** Switch the queuing discipline to FQ-CoDel.
+    ```bash
+    # Remove the old FIFO/TBF rules
+    tc qdisc del dev eth1 root
+
+    # Apply FQ-CoDel
+    tc qdisc add dev eth1 root fq_codel
+    ```
+
+2.  **On the Client (`h1`):** Run the iperf3 test again while watching the ping.
+    ```bash
+    iperf3 -c 10.0.2.1 -t 20
+    ```
+
+3.  **Observation:** The RTT should remain significantly lower (likely under 20-30ms) and more stable, even though the 1Mbps link is still fully saturated by the iperf3 transfer.
+
+---
+
+#### 4. Analysis & Discussion
+* **The Buffer Limit:** In Part B, why did the RTT increase so much? Consider that at 1 Mbps, a 500-packet buffer (approx 750 KB) takes several seconds to empty.
+* **Flow Fairness:** How does FQ-CoDel distinguish between the iperf3 traffic and the ping traffic? (Hint: It uses hashing to separate flows into different sub-queues).
+* **Throughput vs. Latency:** Did switching to FQ-CoDel significantly reduce your iperf3 speed? Usually, you get the same bandwidth but much better responsiveness.
+
+#### 5. Helpful Verification Commands
+* **View Real-time Stats on Router:**
+    ```bash
+    tc -s qdisc show dev eth1
+    ```
+    *Look for the "drops" or "marks" count to see the AQM actively managing the queue.*
+
+
+
+## Extra II
+
 ### Running the scenarios with BBR/BBRv2
 
 You can run all the above scenario who takes in argument a congestion control algorithm with bbr or bbrv2. These algorithms were not fully verified and might have strange behaviours, but it might be interesting to experiment with a non loss-based congestion control algorithm.
--->
+
 ### Connecting to the other devices
 
-During the lab, you may want to have access to the clients, or the router to run some custom tests. To do this, you just have to run the command:
+During the lab, you may want to have access to the clients or the router to run some custom tests. To do this, you just have to run the command:
 ```
 ./connect DEV_NAME
 ```
-with DEV_NAME is the name of the device you want to connect to.
+With DEV_NAME is the name of the device you want to connect to.
 
 For example, to connect to the router1 device, simply use 
 ```
