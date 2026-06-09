@@ -1,3 +1,3 @@
 La mia idea per capire che percorso fanno i pacchetti puo essere semplificata in questo modo: faccio tcpdump su tutti e sei i router spine e tof. 
-Utilizzo scapy per inviare 10000 pacchetti con 10000 porte diverse ad un host che non esiste (ed è nella sotto rete che mi interessa verificare) in modo tale che non risponda e non vengano sporcati i pacchetti. 
+Utilizzo scapy per inviare 10000 pacchetti con 10000 porte diverse ad un host.
 Associo ai router la porta dei pacchetti che sono transitati da lui, in modo tale che ogni router abbia una lista di porte. In questo modo posso sapere ogni singolo pacchetto che strada ha percorso per arrivare a destinazione.
