@@ -3,7 +3,6 @@ device_Name=("spine_1_1_1" "spine_1_1_2" "tof_1_2_1"  "tof_1_2_2" "spine_2_1_1" 
 for i in "${device_Name[@]}"
 do
     kathara exec --no-stdout $i "sh ./shared/Experiment.sh"  &
-    
 done
 
 kathara exec --no-stdout server_1_1_1 "scapy -c ./shared/tenThousandPacket.py" &

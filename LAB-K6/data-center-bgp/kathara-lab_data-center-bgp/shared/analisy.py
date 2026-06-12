@@ -16,5 +16,4 @@ for i in range(1,7):
             packet_passage[index]+=" --> "
     pcap.close()
 
-
 print(collections.Counter(packet_passage))
