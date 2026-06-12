@@ -83,9 +83,7 @@ python3 src/plot_congestion.py lab/shared/no_cca_low_rate/ --dir -f delivery_rat
 -->
 #### Questions: What do you observe? Was there any problem during the transmission?
 
-> You can use this box to answer
->
-> ...
+> Every single packet is delivered with success because the send rate is less than the possibility of this network.
 
 ### [Is ACK clocking sufficient ?](../scenarios/no_cca_high_rate)
 
@@ -98,9 +96,7 @@ We will also run a transmission using the CUBIC congestion control algorithm to 
 
 #### Question: How did ACK clocking perform compared to CUBIC?
 
-> You can use this box to answer
->
-> ...
+> CUBIC performs better than ACK clocking indeed the percentage of loss packet is 0.227% instead of 7.758% that it is a completly different order of loosing packeage.
 
 ### [Starting simple: a single client with one congestion control algorithm](../scenarios/cca_single)
 
